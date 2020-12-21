@@ -1,0 +1,18 @@
+.main-container {
+    text-align: center;
+    margin: 0px 100px;
+}
+
+.form-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.form-object-wrapper {
+    margin: auto 50px;
+}
+
+.Submit-button-wrapper {
+    margin: 30px;
+}

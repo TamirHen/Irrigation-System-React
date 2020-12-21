@@ -1,0 +1,29 @@
+.cycle-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 280px;
+    margin: 5px auto;
+}
+
+.round-text {
+    display: inline;
+    margin: 0px;
+}
+
+.cycle-switch {
+
+}
+
+.time-pickers-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 280px;
+    margin: 5px auto;
+}
+
+.time-picker {
+    margin: 15px 10px;
+    width: 130px;
+}
