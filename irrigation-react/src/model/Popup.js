@@ -29,7 +29,7 @@ class Popup extends React.Component {
     });
   }
 
-  onLogin(value) {
+  onLogin() {
     const db = firestore;
     const email = document.querySelector('#email-login').value;
     const password = document.querySelector('#password-login').value;

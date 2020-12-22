@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 
 import { Button } from '@material-ui/core';
 
-import firebase from '../utils/Firebase';
-
 import Popup from '../model/Popup';
 import Week from "../components/Week";
 import Cycle from '../components/Cycle';
@@ -12,7 +10,7 @@ import './MainPage.css';
 
 const MainPage = () => {
     
-    var weekData = {
+    const [weekData, setWeekData] = useState({
         sunday: false,
         monday: false,
         tuesday: false,
@@ -20,28 +18,28 @@ const MainPage = () => {
         thursday: false,
         friday: false,
         saturday: false
-    };
+    });
 
-    var rounds = {
+    const [rounds, setRounds] = useState({
         round1: {
             isActive: false,
-            startTime: null,
-            endTime: null
+            startTime: "",
+            endTime: ""
         },
         round2: {
             isActive: false,
-            startTime: null,
-            endTime: null
+            startTime: "",
+            endTime: ""
         },
         round3: {
             isActive: false,
-            startTime: null,
-            endTime: null
+            startTime: "",
+            endTime: ""
         }
-    };
+    });
 
     const dataCallback = (childData) => {
-        weekData = {
+        setWeekData({
             sunday: childData.sunday,
             monday: childData.monday,
             tuesday: childData.tuesday,
@@ -49,9 +47,9 @@ const MainPage = () => {
             thursday: childData.thursday,
             friday: childData.friday,
             saturday: childData.saturday
-        };
+        });
 
-        rounds = {
+        setRounds({
             round1: {
                 isActive: childData.isFirstRoundActive,
                 startTime: childData.firstRoundStart,
@@ -67,16 +65,12 @@ const MainPage = () => {
                 startTime: childData.thirdRoundStart,
                 endTime: childData.thirdRoundEnd
             }
-        };
-
-        console.log(weekData);
-        console.log(rounds);
+        });
     }
-
 
     return (
       <React.Fragment>
-        <Popup callback={dataCallback}/>
+        <Popup callback={dataCallback} key="popup"/>
         <div className="main-container">
             <div className="title-wrapper">
                 <h1>Home Irrigation System</h1>
@@ -88,6 +82,7 @@ const MainPage = () => {
                             Object.keys(rounds).map((keyName, keyIndex) => {
                                 return (
                                     <Cycle
+                                        key={keyName+rounds[keyName].isActive}
                                         isActive={rounds[keyName].isActive}
                                         cycleNumber={keyIndex + 1}
                                         startTime={rounds[keyName].startTime}
@@ -98,7 +93,7 @@ const MainPage = () => {
                         }
                     </div>
                     <div className="form-object-wrapper">
-                        <Week week={weekData}/>
+                        <Week week={weekData} key="week"/>
                     </div>
                 </div>
                 <div className="Submit-button-wrapper">

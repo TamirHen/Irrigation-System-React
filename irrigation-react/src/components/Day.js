@@ -14,7 +14,7 @@ const Day = (props) => {
     }
 
     return (
-        <div onClick={changeState}  className="day-wrapper" id={`week-day-${props.day}`}>
+        <li onClick={changeState}  className="li-day" id={`week-day-${props.day}`}>
             <h2 className="day-text">{props.day.charAt(0).toUpperCase() + props.day.slice(1) /* Changing first letter to upper case */ }</h2>
             <Switch 
                 className="day-switch"
@@ -22,7 +22,7 @@ const Day = (props) => {
                 checked={state}
                 // onChange={changeState}
             />
-        </div>
+        </li>
     )
 
 }

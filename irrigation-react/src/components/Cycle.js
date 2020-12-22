@@ -29,7 +29,7 @@ const Cycle = (props) => {
                     className="time-picker"
                     label="Start Time"
                     type="time"
-                    value={props.startTime || null}
+                    value={props.startTime || ""}
                     InputLabelProps={{
                         shrink: true,
                     }}
@@ -40,7 +40,7 @@ const Cycle = (props) => {
                     className="time-picker"
                     label="End Time"
                     type="time"
-                    value={props.endTime || null}
+                    value={props.endTime || ""}
                     InputLabelProps={{
                         shrink: true,
                     }}
