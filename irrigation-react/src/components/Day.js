@@ -6,7 +6,8 @@ import Switch from '@material-ui/core/Switch'
 import './Day.css'
 
 const Day = (props) => {
-    const [state, setState] = useState(props.state)
+    
+    const [state, setState] = useState(props.state);
 
     const changeState = () => {
         setState(!state);

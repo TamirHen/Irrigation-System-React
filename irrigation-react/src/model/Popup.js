@@ -1,5 +1,7 @@
 import React from "react";
 import ReactModalLogin from "react-modal-login";
+import { auth, firestore } from '../utils/Firebase';
+import axios from 'axios';
 
 import './Popup.css';
 
@@ -26,15 +28,30 @@ class Popup extends React.Component {
       error: null
     });
   }
- 
-  onLoginSuccess(method, response) {
-    console.log("logged successfully with " + method);
-  }
- 
-  onLoginFail(method, response) {
-    console.log("logging failed with " + method);
-    this.setState({
-      error: response
+
+  onLogin(value) {
+    const db = firestore;
+    const email = document.querySelector('#email-login').value;
+    const password = document.querySelector('#password-login').value;
+
+    auth.signInWithEmailAndPassword(email, password).then(cred => {
+      db.collection("users").doc(email).get().then(user => {
+        if (user.exists) {
+            axios.get(`${user.data()["dataplicity"]}/get_week`).then(response => {
+              console.log("login successfully")
+              this.closeModal();
+              this.props.callback(response.data);
+            }).catch(error => {
+              console.log(error);
+            })
+        } else {
+            console.log("No such document");
+        }
+    }).catch(function(error) {
+        console.log("Error getting document:", error);
+    });  
+    }, err => {
+      console.log("User not exists");
     });
   }
  
@@ -82,6 +99,7 @@ class Popup extends React.Component {
             loginInputs: [
                 {
                     // containerClass: "popup-input-wrapper",
+                    id: "email-login",
                     type: "email",
                     // inputClass: "popup-input",
                     name: "Email",
@@ -89,6 +107,7 @@ class Popup extends React.Component {
                 },
                 {
                     // containerClass: "popup-input-wrapper",
+                    id: "password-login",
                     type: "password",
                     // inputClass: "popup-input",
                     name: "Password",
@@ -98,6 +117,7 @@ class Popup extends React.Component {
             registerInputs: [
                 {
                     // containerClass: "popup-input-wrapper",
+                    id: "email-signup",
                     type: "email",
                     // inputClass: "popup-input",
                     name: "Email",
@@ -105,6 +125,7 @@ class Popup extends React.Component {
                 },
                 {
                     // containerClass: "popup-input-wrapper",
+                    id: "password-signup",
                     type: "password",
                     // inputClass: "popup-input",
                     name: "Password",
@@ -112,6 +133,7 @@ class Popup extends React.Component {
                 },
                 {
                     // containerClass: "popup-input-wrapper",
+                    id: "urlcode-signup",
                     type: "text",
                     // inputClass: "popup-input",
                     name: "URL Code",
@@ -124,7 +146,8 @@ class Popup extends React.Component {
             },
             registerBtn: {
                 label: "Sign up"
-            }
+            },
+            onLogin: this.onLogin.bind(this)
           }}
         />
       </div>

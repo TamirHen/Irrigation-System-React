@@ -1,5 +1,5 @@
-import logo from './logo.svg';
-import './pages/MainPage';
+import { FirebaseDatabaseProvider } from "@react-firebase/database";
+
 import MainPage from './pages/MainPage';
 
 function App() {
@@ -7,5 +7,13 @@ function App() {
     <MainPage />
   );
 }
+
+// function App() {
+//   return (
+//     <FirebaseDatabaseProvider>
+//       <MainPage />
+//     </FirebaseDatabaseProvider>
+//   );
+// }
 
 export default App;

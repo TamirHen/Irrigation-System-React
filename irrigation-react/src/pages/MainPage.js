@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Button } from '@material-ui/core';
+
+import firebase from '../utils/Firebase';
 
 import Popup from '../model/Popup';
 import Week from "../components/Week";
@@ -9,57 +11,72 @@ import Cycle from '../components/Cycle';
 import './MainPage.css';
 
 const MainPage = () => {
-
-    const DUMMY_OBJECT = {
-        sunday: true,
+    
+    var weekData = {
+        sunday: false,
         monday: false,
-        tuesday: true,
+        tuesday: false,
         wednesday: false,
-        thursday: true,
+        thursday: false,
         friday: false,
-        saturday: true,
-        firstRoundStart: null,
-        firstRoundEnd: null,
-        secondRoundStart: null,
-        secondRoundEnd: null,
-        thirdRoundStart: null,
-        thirdRoundEnd: null,
-        isFirstRoundActive: true,
-        isSecondRoundActive: false,
-        isThirdRoundActive: true
-    }
+        saturday: false
+    };
 
-    const weekData = {
-        sunday: DUMMY_OBJECT.sunday,
-        monday: DUMMY_OBJECT.monday,
-        tuesday: DUMMY_OBJECT.tuesday,
-        wednesday: DUMMY_OBJECT.wednesday,
-        thursday: DUMMY_OBJECT.thursday,
-        friday: DUMMY_OBJECT.friday,
-        saturday: DUMMY_OBJECT.saturday
-    }
-
-    const rounds = {
+    var rounds = {
         round1: {
-            isActive: DUMMY_OBJECT.isFirstRoundActive,
-            startTime: DUMMY_OBJECT.firstRoundStart,
-            endTime: DUMMY_OBJECT.firstRoundEnd
+            isActive: false,
+            startTime: null,
+            endTime: null
         },
         round2: {
-            isActive: DUMMY_OBJECT.isSecondRoundActive,
-            startTime: DUMMY_OBJECT.secondRoundStart,
-            endTime: DUMMY_OBJECT.secondRoundEnd
+            isActive: false,
+            startTime: null,
+            endTime: null
         },
         round3: {
-            isActive: DUMMY_OBJECT.isThirdRoundActive,
-            startTime: DUMMY_OBJECT.thirdRoundStart,
-            endTime: DUMMY_OBJECT.thirdRoundEnd
+            isActive: false,
+            startTime: null,
+            endTime: null
         }
+    };
+
+    const dataCallback = (childData) => {
+        weekData = {
+            sunday: childData.sunday,
+            monday: childData.monday,
+            tuesday: childData.tuesday,
+            wednesday: childData.wednesday,
+            thursday: childData.thursday,
+            friday: childData.friday,
+            saturday: childData.saturday
+        };
+
+        rounds = {
+            round1: {
+                isActive: childData.isFirstRoundActive,
+                startTime: childData.firstRoundStart,
+                endTime: childData.firstRoundEnd
+            },
+            round2: {
+                isActive: childData.isSecondRoundActive,
+                startTime: childData.secondRoundStart,
+                endTime: childData.secondRoundEnd
+            },
+            round3: {
+                isActive: childData.isThirdRoundActive,
+                startTime: childData.thirdRoundStart,
+                endTime: childData.thirdRoundEnd
+            }
+        };
+
+        console.log(weekData);
+        console.log(rounds);
     }
+
 
     return (
       <React.Fragment>
-        {/* <Popup /> */}
+        <Popup callback={dataCallback}/>
         <div className="main-container">
             <div className="title-wrapper">
                 <h1>Home Irrigation System</h1>
