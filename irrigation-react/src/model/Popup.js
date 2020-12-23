@@ -2,7 +2,6 @@ import React from "react";
 import ReactModalLogin from "react-modal-login";
 import { auth, firestore } from '../utils/Firebase';
 import axios from 'axios';
-import Loader from 'react-loaders';
 
 import './Popup.css';
 
@@ -29,7 +28,7 @@ class Popup extends React.Component {
       showModal: false,
       error: null
     });
-    this.finishLoading();
+    // this.finishLoading();
   }
 
   onLogin() {
@@ -38,8 +37,11 @@ class Popup extends React.Component {
     const email = document.querySelector('#email-login').value;
     const password = document.querySelector('#password-login').value;
 
+    this.setState({
+      error: null
+    });
+
     auth.signInWithEmailAndPassword(email, password).then(cred => {
-      this.finishLoading();
       db.collection("users").doc(email).get().then(user => {
         if (user.exists) {
             axios.get(`${user.data()["dataplicity"]}/get_week`).then(response => {
@@ -56,14 +58,46 @@ class Popup extends React.Component {
     }).catch(function(error) {
         console.log("Error getting document:", error);
         this.errorHandler();
-    });  
+    });
     }, err => {
-      console.log("User not exists");
-      this.finishLoading();
       this.errorHandler();
     });
   }
- 
+
+  onRegister() {
+    this.startLoading();
+    const db = firestore;
+    const email = document.querySelector('#email-signup').value;
+    const password = document.querySelector('#password-signup').value;
+    const urlCode = document.querySelector('#urlCode-signup').value;
+
+    this.setState({
+      error: null
+    });
+
+    auth.createUserWithEmailAndPassword(email, password).then(cred => {
+      db.collection("users").doc(email).set({
+        dataplicity: urlCode
+      });
+
+      // Needs to override error message when user signup successfully but could't connect to the pi.
+      axios.get(`${urlCode}/get_week`).then(response => {
+        console.log("signed up and connected to pi successfully")
+        this.closeModal();
+        this.props.callback(response.data);
+      }).catch(error => {
+        console.log(error);
+        console.log("Sing up successfully, there was a problem with the connection to the pi.");
+        this.errorHandler();
+      });  
+
+    }, err => {
+      this.errorHandler();
+    });
+
+  }
+
+  
   startLoading() {
     this.setState({
       loading: true
@@ -86,17 +120,13 @@ class Popup extends React.Component {
     this.setState({
       error: true
     });
+    this.finishLoading();
   }
  
   render() {
     return (
       <div>
         <React.Fragment>
-          <Loader
-            className="loader"
-            type="ball-clip-rotate"
-            active={this.state.loading}
-          />
           <ReactModalLogin
             visible={this.state.showModal}
           //   onCloseModal={this.closeModal.bind(this)}
@@ -106,11 +136,12 @@ class Popup extends React.Component {
               afterChange: this.afterTabsChange.bind(this)
             }}
             loginError={{
-              containerClass: "error-message",
-              label: "Couldn't sign in, please try again."
+              // containerClass: "error-message",
+              label: "Couldn't sign in, please try again.",
             }}
             registerError={{
-              label: "Couldn't sign up, please try again."
+              // containerClass: "error-message",
+              label: "Couldn't sign up, please try again.",
             }}
             startLoading={this.startLoading.bind(this)}
             finishLoading={this.finishLoading.bind(this)}
@@ -155,11 +186,11 @@ class Popup extends React.Component {
                   },
                   {
                       // containerClass: "popup-input-wrapper",
-                      id: "urlcode-signup",
+                      id: "urlCode-signup",
                       type: "text",
                       // inputClass: "popup-input",
                       name: "URL Code",
-                      label: "URL Code"
+                      label: "URL Code",
                   }
               ],
 
@@ -169,7 +200,8 @@ class Popup extends React.Component {
               registerBtn: {
                   label: "Sign up"
               },
-              onLogin: this.onLogin.bind(this)
+              onLogin: this.onLogin.bind(this),
+              onRegister: this.onRegister.bind(this)
             }}
           />
         </React.Fragment>

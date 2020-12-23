@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { Button } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Popup from '../model/Popup';
 import Week from "../components/Week";
@@ -9,7 +10,8 @@ import Cycle from '../components/Cycle';
 import './MainPage.css';
 
 const MainPage = () => {
-    
+
+    const [loading, setLoading] = useState("determinate");
     const [weekData, setWeekData] = useState({
         sunday: false,
         monday: false,
@@ -19,7 +21,6 @@ const MainPage = () => {
         friday: false,
         saturday: false
     });
-
     const [rounds, setRounds] = useState({
         round1: {
             isActive: false,
@@ -68,6 +69,11 @@ const MainPage = () => {
         });
     }
 
+    const onSubmit = (event) => {
+        event.preventDefault();
+        setLoading("indeterminate");
+    }
+
     return (
       <React.Fragment>
         <Popup callback={dataCallback} key="popup"/>
@@ -75,7 +81,7 @@ const MainPage = () => {
             <div className="title-wrapper">
                 <h1>Home Irrigation System</h1>
             </div>
-            <form className="main-form">
+            <form className="main-form" onSubmit={onSubmit}>
                 <div className="form-body">
                     <div className="form-object-wrapper">
                         {
@@ -97,10 +103,14 @@ const MainPage = () => {
                     </div>
                 </div>
                 <div className="Submit-button-wrapper">
-                    <Button variant="contained" color="primary">
+                    <Button variant="contained" color="primary" type="submit">
                         Submit
                     </Button>
                 </div>
+                <CircularProgress
+                    className="loader"
+                    variant={loading}
+                />
             </form>
         </div>
       </React.Fragment>
