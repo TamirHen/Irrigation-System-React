@@ -18,6 +18,7 @@ const MainPage = () => {
     const [loading, setLoading] = useState("determinate");
     const [submitMessage, setSubmitMessage] = useState("");
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
+    const [textColor, setTextColor] = useState("red");
 
     const [week, setWeek] = useState({
         sunday: false,
@@ -97,11 +98,11 @@ const MainPage = () => {
 
     const setMessage = (message) => {
         setLoading("determinate");
-        if (message === "Submitted") {
-            // message color - green
+        if (message === "Done") {
+            setTextColor("green");
         }
         else {
-            // message color - red
+            setTextColor("red");
         }
         setSubmitMessage(message);
     }
@@ -115,12 +116,12 @@ const MainPage = () => {
 
         const data = {
             ...week,
-            "firstRoundStart":`${rounds.round1.startTime}:00`,
-            "firstRoundEnd":`${rounds.round1.endTime}:00`,
-            "secondRoundStart":`${rounds.round2.startTime}:00`,
-            "secondRoundEnd":`${rounds.round2.endTime}:00`,
-            "thirdRoundStart":`${rounds.round3.startTime}:00`,
-            "thirdRoundEnd":`${rounds.round3.endTime}:00`,
+            "firstRoundStart":rounds.round1.startTime ? `${rounds.round1.startTime.split(":")[0]}:${rounds.round1.startTime.split(":")[1]}:00` : null,
+            "firstRoundEnd":rounds.round1.endTime ? `${rounds.round1.endTime.split(":")[0]}:${rounds.round1.endTime.split(":")[1]}:00` : null,
+            "secondRoundStart":rounds.round2.startTime ? `${rounds.round2.startTime.split(":")[0]}:${rounds.round2.startTime.split(":")[1]}:00` : null,
+            "secondRoundEnd":rounds.round2.endTime ? `${rounds.round2.endTime.split(":")[0]}:${rounds.round2.endTime.split(":")[1]}:00` : null,
+            "thirdRoundStart":rounds.round3.startTime ? `${rounds.round3.startTime.split(":")[0]}:${rounds.round3.startTime.split(":")[1]}:00` : null,
+            "thirdRoundEnd":rounds.round3.endTime ? `${rounds.round3.endTime.split(":")[0]}:${rounds.round3.endTime.split(":")[1]}:00` : null,
             "isFirstRoundActive":rounds.round1.isActive,
             "isSecondRoundActive":rounds.round2.isActive,
             "isThirdRoundActive":rounds.round3.isActive
@@ -132,7 +133,7 @@ const MainPage = () => {
             db.collection("users").doc("tamirhen6@gmail.com").get().then(user => {
                 axios.post(`${user.data()["dataplicity"]}/update_week`, data).then(response => {
                     console.log("data updated successfully");
-                    setMessage("Submitted");
+                    setMessage("Done");
                     setIsSubmitDisabled(false);
                 }).catch(error => {
                     console.log(error);
@@ -197,7 +198,7 @@ const MainPage = () => {
                     </Button>
                 </div>
                 <div className="loader-wrapper">
-                    <p className="submit-message">{submitMessage}</p>
+                    <p className="submit-message" style={{color: textColor}}>{submitMessage}</p>
                     <CircularProgress
                                 className="loader"
                                 variant={loading}

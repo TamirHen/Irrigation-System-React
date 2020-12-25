@@ -88,7 +88,7 @@ class Popup extends React.Component {
         this.props.setData(email, response.data);
       }).catch(error => {
         console.log(error);
-        console.log("Sing up successfully, there was a problem with the connection to the pi.");
+        console.log("Sing up successfully, there was a problem with the connection to the pi");
         this.errorHandler();
       });  
 
@@ -138,11 +138,11 @@ class Popup extends React.Component {
             }}
             loginError={{
               // containerClass: "error-message",
-              label: "Couldn't sign in, please try again.",
+              label: "Couldn't sign in, please try again",
             }}
             registerError={{
               // containerClass: "error-message",
-              label: "Couldn't sign up, please try again.",
+              label: "Couldn't sign up, please try again",
             }}
             startLoading={this.startLoading.bind(this)}
             finishLoading={this.finishLoading.bind(this)}
@@ -196,7 +196,7 @@ class Popup extends React.Component {
               ],
 
               loginBtn: {
-                  label: "Sign in"
+                  label: "Sign in",
               },
               registerBtn: {
                   label: "Sign up"

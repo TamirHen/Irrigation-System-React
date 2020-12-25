@@ -18,13 +18,13 @@ const validateWeek = (data) => {
         return "Error in round 3: end time before start time";
     }
     if (data.isFirstRoundActive && (!data.firstRoundStart && !data.firstRoundEnd)) {
-        return "Error: Round 1 is active but empty";
+        return "Error: round 1 is active but empty";
     }
     if (data.isSecondRoundActive && (!data.secondRoundStart && !data.secondRoundEnd)) {
-        return "Error: Round 2 is active but empty";
+        return "Error: round 2 is active but empty";
     }
     if (data.isThirdRoundActive && (!data.thirdRoundStart && !data.thirdRoundEnd)) {
-        return "Error: Round 3 is active but empty";
+        return "Error: round 3 is active but empty";
     }
     return "valid"
 }
