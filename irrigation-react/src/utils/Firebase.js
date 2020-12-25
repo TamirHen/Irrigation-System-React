@@ -2,8 +2,6 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 
-
-
 const firebaseConfig = {
     apiKey: "AIzaSyCmWhdLsNWdcoy5n73aVuX2Wb17Qkw4MKw",
     authDomain: "smart-irrigation-system-854fa.firebaseapp.com",

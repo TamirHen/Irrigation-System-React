@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-
+import { validateWeek } from '../utils/Validate';
 import { Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Popover from '@material-ui/core/Popover';
 import axios from 'axios';
 import { firestore } from '../utils/Firebase';
 
@@ -12,11 +11,13 @@ import Cycle from '../components/Cycle';
 
 import './MainPage.css';
 
+let userEmail = "";
+
 const MainPage = () => {
 
-    let userEmail = "";
     const [loading, setLoading] = useState("determinate");
-    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+    const [submitMessage, setSubmitMessage] = useState("");
+    const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
 
     const [week, setWeek] = useState({
         sunday: false,
@@ -46,6 +47,15 @@ const MainPage = () => {
         }
     });
 
+    const updateRound = (round, propToUpdate, state) => {
+        let updatedRound = rounds[round];
+
+        updatedRound[propToUpdate] = state;
+        let updatedRounds = {...rounds};
+        updatedRounds[round] = updatedRound;
+        setRounds(updatedRounds);
+    }
+
     const updateDay = (day, state) => {
         let updatedWeek = {...week};
         updatedWeek[day] = state;
@@ -54,7 +64,7 @@ const MainPage = () => {
 
     const setData = (email, userData) => {
         userEmail = email;
-        
+
         setWeek({
             sunday: userData.sunday,
             monday: userData.monday,
@@ -85,39 +95,60 @@ const MainPage = () => {
         });
     }
 
+    const setMessage = (message) => {
+        setLoading("determinate");
+        if (message === "Submitted") {
+            // message color - green
+        }
+        else {
+            // message color - red
+        }
+        setSubmitMessage(message);
+    }
+
     const onSubmit = (event) => {
         event.preventDefault();
+        setIsSubmitDisabled(true);
+        setMessage("");
         setLoading("indeterminate");
         const db = firestore;
 
         const data = {
-            "sunday":true,
-            "monday":true,
-            "tuesday":true,
-            "wednesday":true,
-            "thursday":true,
-            "friday":true,
-            "saturday":true,
-            "firstRoundStart":"03:00:00",
-            "firstRoundEnd":"03:06:00",
-            "secondRoundStart":null,
-            "secondRoundEnd":null,
-            "thirdRoundStart":null,
-            "thirdRoundEnd":null,
-            "isFirstRoundActive":true,
-            "isSecondRoundActive":false,
-            "isThirdRoundActive":false
+            ...week,
+            "firstRoundStart":`${rounds.round1.startTime}:00`,
+            "firstRoundEnd":`${rounds.round1.endTime}:00`,
+            "secondRoundStart":`${rounds.round2.startTime}:00`,
+            "secondRoundEnd":`${rounds.round2.endTime}:00`,
+            "thirdRoundStart":`${rounds.round3.startTime}:00`,
+            "thirdRoundEnd":`${rounds.round3.endTime}:00`,
+            "isFirstRoundActive":rounds.round1.isActive,
+            "isSecondRoundActive":rounds.round2.isActive,
+            "isThirdRoundActive":rounds.round3.isActive
         }
 
-        db.collection("users").doc(userEmail).get().then(user => {
-            axios.post(`${user.data()["dataplicity"]}/update_week`).then(response => {
-                console.log("data returned successfully")
+        const validationMessage = validateWeek(data)
+        
+        if (validationMessage === "valid") {
+            db.collection("users").doc("tamirhen6@gmail.com").get().then(user => {
+                axios.post(`${user.data()["dataplicity"]}/update_week`, data).then(response => {
+                    console.log("data updated successfully");
+                    setMessage("Submitted");
+                    setIsSubmitDisabled(false);
+                }).catch(error => {
+                    console.log(error);
+                    setMessage("Connection error, please try again later");
+                    setIsSubmitDisabled(false);
+                })
             }).catch(error => {
                 console.log(error);
+                setMessage("Connection error, please try again later");
+                setIsSubmitDisabled(false);
             })
-        }).catch(error => {
-            console.log(error);
-        })
+        }
+        else {
+            setMessage(validationMessage);
+            setIsSubmitDisabled(false);
+        }
     }
 
     return (
@@ -139,6 +170,7 @@ const MainPage = () => {
                                         cycleNumber={keyIndex + 1}
                                         startTime={rounds[keyName].startTime}
                                         endTime={rounds[keyName].endTime}
+                                        updateRound={updateRound}
                                     />
                                 )
                             })
@@ -160,28 +192,18 @@ const MainPage = () => {
                     </div>
                 </div>
                 <div className="Submit-button-wrapper">
-                    <Button variant="contained" color="primary" type="submit">
+                    <Button variant="contained" color="primary" type="submit" disabled={isSubmitDisabled}>
                         Submit
                     </Button>
                 </div>
                 <div className="loader-wrapper">
+                    <p className="submit-message">{submitMessage}</p>
                     <CircularProgress
                                 className="loader"
                                 variant={loading}
                     />
                 </div>
-
-                {/* <Popover
-                    id="loader-popover"
-                    open={isPopoverOpen}
-                    // onClose={}
-                    anchorEl={true}
-                    anchorOrigin={{
-                      vertical: 300,
-                      horizontal: 'center',
-                    }}
-                >
-                </Popover> */}
+                
             </form>
         </div>
       </React.Fragment>

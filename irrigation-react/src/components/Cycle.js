@@ -1,5 +1,4 @@
 import React from 'react';
-import { useState } from "react";
 
 import Switch from '@material-ui/core/Switch'
 import TextField from '@material-ui/core/TextField'
@@ -7,7 +6,6 @@ import TextField from '@material-ui/core/TextField'
 import './Cycle.css';
 
 const Cycle = (props) => {
-    const [isActive, setIsActive] = useState(props.isActive || false);
 
     return(
         <div className="cycle-container">
@@ -16,9 +14,9 @@ const Cycle = (props) => {
                 <Switch
                     className="cycle-switch"
                     color="primary"
-                    checked={isActive}
+                    checked={props.isActive}
                     onChange={() => {
-                        setIsActive(!isActive);
+                        props.updateRound(`round${props.cycleNumber}`, "isActive", !props.isActive);
                     }}
                 />
             </div>
@@ -33,6 +31,9 @@ const Cycle = (props) => {
                     InputLabelProps={{
                         shrink: true,
                     }}
+                    onChange={(event) => {
+                        props.updateRound(`round${props.cycleNumber}`, "startTime", event.target.value === "" ? null : `${event.target.value}`);
+                    }}
                 />
                 {/* <p className="date-picker-label">End Time</p> */}
                 <TextField
@@ -43,6 +44,9 @@ const Cycle = (props) => {
                     value={props.endTime || ""}
                     InputLabelProps={{
                         shrink: true,
+                    }}
+                    onChange={(event) => {
+                        props.updateRound(`round${props.cycleNumber}`, "endTime", event.target.value === "" ? null : `${event.target.value}`);
                     }}
                 />
             </div>

@@ -50,6 +50,7 @@ class Popup extends React.Component {
               this.props.setData(email , response.data);
             }).catch(error => {
               console.log(error);
+              this.errorHandler();
             })
         } else {
             console.log("No such document");
