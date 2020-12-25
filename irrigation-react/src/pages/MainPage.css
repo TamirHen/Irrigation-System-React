@@ -3,6 +3,10 @@
     margin: 0px 100px;
 }
 
+ul {
+    list-style-type: none;
+}
+
 .form-body {
     display: flex;
     flex-direction: row;
@@ -15,9 +19,16 @@
 }
 
 .Submit-button-wrapper {
-    margin: 30px;
+    padding-top: 30px;
+    padding-left: 10px;
+}
+
+.loader-wrapper {
+    margin-top: 30px;
+    padding-left: 10px;
 }
 
 .loader {
-    margin: 10px
+    height: 50px !important;
+    width: 50px !important;
 }

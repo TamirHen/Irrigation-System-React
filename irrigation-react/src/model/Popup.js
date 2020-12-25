@@ -47,7 +47,7 @@ class Popup extends React.Component {
             axios.get(`${user.data()["dataplicity"]}/get_week`).then(response => {
               console.log("login successfully")
               this.closeModal();
-              this.props.callback(response.data);
+              this.props.setData(email , response.data);
             }).catch(error => {
               console.log(error);
             })
@@ -84,7 +84,7 @@ class Popup extends React.Component {
       axios.get(`${urlCode}/get_week`).then(response => {
         console.log("signed up and connected to pi successfully")
         this.closeModal();
-        this.props.callback(response.data);
+        this.props.setData(email, response.data);
       }).catch(error => {
         console.log(error);
         console.log("Sing up successfully, there was a problem with the connection to the pi.");
