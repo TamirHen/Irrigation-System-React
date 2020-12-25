@@ -160,49 +160,53 @@ const MainPage = () => {
                 <h1>Home Irrigation System</h1>
             </div>
             <form className="main-form" onSubmit={onSubmit}>
-                <div className="form-body">
-                    <div className="form-object-wrapper">
-                        {
-                            Object.keys(rounds).map((keyName, keyIndex) => {
-                                return (
-                                    <Cycle
-                                        key={keyName+rounds[keyName].isActive}
-                                        isActive={rounds[keyName].isActive}
-                                        cycleNumber={keyIndex + 1}
-                                        startTime={rounds[keyName].startTime}
-                                        endTime={rounds[keyName].endTime}
-                                        updateRound={updateRound}
-                                    />
-                                )
-                            })
-                        }
-                    </div>
-                    <div className="form-object-wrapper">
-                        <ul className="week-list">
+                <div className="form-body-wrapper">
+                    <div className="form-body">
+                        <div className="form-object-wrapper">
                             {
-                            Object.keys(week).map((keyName, keyIndex) => {
-                                return <Day 
-                                        key={keyName+week[keyName]}
-                                        day={keyName}
-                                        state={week[keyName]}
-                                        updateDay={updateDay}
-                                    />
+                                Object.keys(rounds).map((keyName, keyIndex) => {
+                                    return (
+                                        <Cycle
+                                            key={keyName+rounds[keyName].isActive}
+                                            isActive={rounds[keyName].isActive}
+                                            cycleNumber={keyIndex + 1}
+                                            startTime={rounds[keyName].startTime}
+                                            endTime={rounds[keyName].endTime}
+                                            updateRound={updateRound}
+                                        />
+                                    )
                                 })
                             }
-                        </ul>
+                        </div>
+                        <div className="form-object-wrapper">
+                            <ul className="week-list">
+                                {
+                                Object.keys(week).map((keyName, keyIndex) => {
+                                    return <Day 
+                                            key={keyName+week[keyName]}
+                                            day={keyName}
+                                            state={week[keyName]}
+                                            updateDay={updateDay}
+                                        />
+                                    })
+                                }
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                <div className="Submit-button-wrapper">
-                    <Button variant="contained" color="primary" type="submit" disabled={isSubmitDisabled}>
-                        Submit
-                    </Button>
-                </div>
-                <div className="loader-wrapper">
-                    <p className="submit-message" style={{color: textColor}}>{submitMessage}</p>
-                    <CircularProgress
-                                className="loader"
-                                variant={loading}
-                    />
+                    <div className="Submit-button-wrapper">
+                        <Button className="onetime-button" variant="contained" color="secondary">One Time</Button>
+                        <Button variant="contained" color="primary" type="submit" disabled={isSubmitDisabled}>
+                            Submit
+                        </Button>
+                        <label className="mock-label"></label>
+                    </div>
+                    <div className="loader-wrapper">
+                        <p className="submit-message" style={{color: textColor}}>{submitMessage}</p>
+                        <CircularProgress
+                            className="loader"
+                            variant={loading}
+                        />
+                    </div>
                 </div>
                 
             </form>

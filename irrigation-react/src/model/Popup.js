@@ -12,7 +12,9 @@ class Popup extends React.Component {
     this.state = {
       showModal: true,
       loading: false,
-      error: null
+      error: null,
+      loggedIn: null,
+      initialTab: "login"
     };
   }
 
@@ -45,8 +47,9 @@ class Popup extends React.Component {
       db.collection("users").doc(email).get().then(user => {
         if (user.exists) {
             axios.get(`${user.data()["dataplicity"]}/get_week`).then(response => {
-              console.log("login successfully")
-              this.closeModal();
+              console.log("login successfully");
+              // this.closeModal();
+              this.onLoginSuccess("form");
               this.props.setData(email , response.data);
             }).catch(error => {
               console.log(error);
@@ -83,8 +86,9 @@ class Popup extends React.Component {
 
       // Needs to override error message when user signup successfully but could't connect to the pi.
       axios.get(`${urlCode}/get_week`).then(response => {
-        console.log("signed up and connected to pi successfully")
-        this.closeModal();
+        console.log("signed up and connected to pi successfully");
+        // this.closeModal();
+        this.onLoginSuccess("form");
         this.props.setData(email, response.data);
       }).catch(error => {
         console.log(error);
@@ -98,7 +102,23 @@ class Popup extends React.Component {
 
   }
 
-  
+  onLoginSuccess(method, response) {
+
+    this.closeModal();
+    this.setState({
+      loggedIn: method,
+      loading: false
+    })
+  }
+
+  onLoginFail(method, response) {
+
+    this.setState({
+      loading: false,
+      error: response
+    })
+  }
+
   startLoading() {
     this.setState({
       loading: true
@@ -130,8 +150,9 @@ class Popup extends React.Component {
         <React.Fragment>
           <ReactModalLogin
             visible={this.state.showModal}
-          //   onCloseModal={this.closeModal.bind(this)}
+            onCloseModal={() => {}}
             loading={this.state.loading}
+            initialTab={this.state.initialTab}
             error={this.state.error}
             tabs={{
               afterChange: this.afterTabsChange.bind(this)
