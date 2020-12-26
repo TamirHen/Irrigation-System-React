@@ -5,13 +5,10 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
 import { firestore } from '../utils/Firebase';
 
+import FullWidthTabs from '../components/Tabs';
 import Popup from '../model/Popup';
-import Day from "../components/Day";
-import Cycle from '../components/Cycle';
 
 import './MainPage.css';
-
-let userEmail = "";
 
 const MainPage = () => {
 
@@ -19,6 +16,7 @@ const MainPage = () => {
     const [submitMessage, setSubmitMessage] = useState("");
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
     const [textColor, setTextColor] = useState("red");
+    const [userEmail, setUserEmail] = useState("");
 
     const [week, setWeek] = useState({
         sunday: false,
@@ -64,7 +62,7 @@ const MainPage = () => {
     }
 
     const setData = (email, userData) => {
-        userEmail = email;
+        setUserEmail(email);
 
         setWeek({
             sunday: userData.sunday,
@@ -130,7 +128,7 @@ const MainPage = () => {
         const validationMessage = validateWeek(data)
         
         if (validationMessage === "valid") {
-            db.collection("users").doc("tamirhen6@gmail.com").get().then(user => {
+            db.collection("users").doc(userEmail).get().then(user => {
                 axios.post(`${user.data()["dataplicity"]}/update_week`, data).then(response => {
                     console.log("data updated successfully");
                     setMessage("Done");
@@ -161,51 +159,27 @@ const MainPage = () => {
             </div>
             <form className="main-form" onSubmit={onSubmit}>
                 <div className="form-body-wrapper">
-                    <div className="form-body">
-                        <div className="form-object-wrapper">
-                            {
-                                Object.keys(rounds).map((keyName, keyIndex) => {
-                                    return (
-                                        <Cycle
-                                            key={keyName+rounds[keyName].isActive}
-                                            isActive={rounds[keyName].isActive}
-                                            cycleNumber={keyIndex + 1}
-                                            startTime={rounds[keyName].startTime}
-                                            endTime={rounds[keyName].endTime}
-                                            updateRound={updateRound}
-                                        />
-                                    )
-                                })
-                            }
-                        </div>
-                        <div className="form-object-wrapper">
-                            <ul className="week-list">
-                                {
-                                Object.keys(week).map((keyName, keyIndex) => {
-                                    return <Day 
-                                            key={keyName+week[keyName]}
-                                            day={keyName}
-                                            state={week[keyName]}
-                                            updateDay={updateDay}
-                                        />
-                                    })
-                                }
-                            </ul>
-                        </div>
-                    </div>
+                    <FullWidthTabs 
+                        rounds={rounds}
+                        updateRound={updateRound}
+                        week={week}
+                        updateDay={updateDay}
+                    />
+
                     <div className="Submit-button-wrapper">
-                        <Button className="onetime-button" variant="contained" color="secondary">One Time</Button>
                         <Button variant="contained" color="primary" type="submit" disabled={isSubmitDisabled}>
                             Submit
                         </Button>
-                        <label className="mock-label"></label>
-                    </div>
-                    <div className="loader-wrapper">
-                        <p className="submit-message" style={{color: textColor}}>{submitMessage}</p>
-                        <CircularProgress
-                            className="loader"
-                            variant={loading}
-                        />
+                        {/* <label className="mock-label"></label> */}
+                        <div className="submit-message-wrapper">
+                            <p className="submit-message" style={{color: textColor}}>{submitMessage}</p>
+                        </div>
+                        <div className="loader-wrapper">
+                            <CircularProgress
+                                className="loader"
+                                variant={loading}
+                            />
+                        </div>
                     </div>
                 </div>
                 

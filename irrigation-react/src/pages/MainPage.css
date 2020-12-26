@@ -11,47 +11,37 @@ ul.week-list {
 }
 
 .form-body-wrapper {
+    padding-top: 15px;
     margin-left: auto;
     margin-right: auto;
-    width: 670px;
-}
-
-.form-body {
-    display: flex;
-    flex-direction: row;
-    margin-left: auto;
-    margin-right: auto;
-    justify-content: center;
-}
-
-.form-object-wrapper {
-    margin: auto 50px;
-    padding: 10px 0px;
+    width: 1200px;
+    align-items: center;
 }
 
 .Submit-button-wrapper {
     padding-top: 30px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .mock-label {
-    width: 90px;
-}
-
-.onetime-button {
-    
+    width: 100px;
 }
 
 .loader-wrapper {
-    margin-top: 30px;
-    padding-left: 10px;
+    position: absolute;
+    margin-top: 65px;
 }
 
 .loader {
     height: 50px !important;
     width: 50px !important;
+}
+
+.submit-message-wrapper {
+    position: absolute;
+    margin-top: 40px;
 }
 
 .submit-message {

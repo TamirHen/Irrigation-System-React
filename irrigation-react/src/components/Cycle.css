@@ -3,7 +3,7 @@
     flex-direction: row;
     justify-content: space-between;
     width: 280px;
-    margin: 5px auto;
+    height: 32px;
 }
 
 .round-text {
@@ -20,10 +20,10 @@
     flex-direction: row;
     justify-content: space-between;
     width: 280px;
-    margin: 5px auto;
+    margin: 8px auto;
 }
 
 .time-picker {
-    margin: 15px 10px;
+    margin: 5px 0px;
     width: 130px;
 }
