@@ -8,7 +8,7 @@
     padding: 1px 0px;
 }
 
-.li#week-day-sunday.li-day {
+#week-day-sunday {
     padding-top: 0px;
     margin-top: 0px;
 }
@@ -26,9 +26,6 @@
 }
 
 .day-text {
-    margin: 3px 5px 5px 5px;
+    margin: 1px 5px 5px 5px;
     padding-left: 5px;
-}
-
-.day-switch {
 }

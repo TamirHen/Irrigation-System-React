@@ -1,3 +1,7 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable react/require-default-props */
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
@@ -8,7 +12,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
-import Day from "./Day";
+import Day from './Day';
 import Cycle from './Cycle';
 
 import './Tabs.css';
@@ -26,7 +30,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box p={3}>
-          <Typography>{children}</Typography>
+          <Typography component="span">{children}</Typography>
         </Box>
       )}
     </div>
@@ -50,9 +54,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
     width: 700,
-    height: 460,
-    marginLeft: "auto",
-    marginRight: "auto"
+    height: 420,
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
 }));
 
@@ -61,7 +65,7 @@ export default function FullWidthTabs(props) {
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
 
-  const {rounds, week, updateRound, updateDay} = props;
+  const { rounds, week, updateRound, updateDay } = props;
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -83,9 +87,9 @@ export default function FullWidthTabs(props) {
           aria-label="tabs"
           centered
         >
-            <Tab label="Manual" {...a11yProps(0)} />
-            <Tab label="Auto" {...a11yProps(1)} />
-            <Tab label="State" {...a11yProps(2)} />
+          <Tab label="Manual" {...a11yProps(0)} />
+          <Tab label="Auto" {...a11yProps(1)} />
+          <Tab label="State" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -94,41 +98,35 @@ export default function FullWidthTabs(props) {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-            <div className="tab-body">
-                <div className="tab-object-wrapper">
-                    {
-                        Object.keys(rounds).map((keyName, keyIndex) => {
-                            return (
-                                <Cycle
-                                    key={keyName+rounds[keyName].isActive}
-                                    isActive={rounds[keyName].isActive}
-                                    cycleNumber={keyIndex + 1}
-                                    startTime={rounds[keyName].startTime}
-                                    endTime={rounds[keyName].endTime}
-                                    updateRound={updateRound}
-                                />
-                            )
-                        })
-                    }
-                </div>
-                <div className="tab-object-wrapper">
-                    <ul className="week-list">
-                        {
-                        Object.keys(week).map((keyName, keyIndex) => {
-                            return <Day 
-                                    key={keyName+week[keyName]}
-                                    day={keyName}
-                                    state={week[keyName]}
-                                    updateDay={updateDay}
-                                />
-                            })
-                        }
-                    </ul>
-                </div>
-            </div>
+          First TabPanel
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          Item Two
+          <div className="tab-body">
+            <div className="tab-object-wrapper">
+              {Object.keys(rounds).map((keyName, keyIndex) => (
+                <Cycle
+                  key={keyName + rounds[keyName].isActive}
+                  isActive={rounds[keyName].isActive}
+                  cycleNumber={keyIndex + 1}
+                  startTime={rounds[keyName].startTime}
+                  endTime={rounds[keyName].endTime}
+                  updateRound={updateRound}
+                />
+              ))}
+            </div>
+            <div className="tab-object-wrapper">
+              <ul className="week-list">
+                {Object.keys(week).map((keyName, keyIndex) => (
+                  <Day
+                    key={keyName + week[keyName]}
+                    day={keyName}
+                    state={week[keyName]}
+                    updateDay={updateDay}
+                  />
+                ))}
+              </ul>
+            </div>
+          </div>
         </TabPanel>
       </SwipeableViews>
     </div>
