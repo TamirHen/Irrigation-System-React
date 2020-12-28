@@ -16,7 +16,7 @@
 }
 
 .breathing-button-wrapper {
-  margin-top: 35px;
+  margin-top: 50px;
 }
 
 #minutes-input {
@@ -24,8 +24,10 @@
 }
 
 #breathing-button {
-  width: 160px;
-  height: 160px;
+  width: 200px;
+  height: 200px;
+  /* width: 160px;
+  height: 160px; */
   border-radius: 50% !important;
   border: 7px solid #cecbcb !important;
   font-size: 16px;
@@ -46,62 +48,33 @@
   border-color: #cac9c9 !important;
 }
 
-/* breathing effetc: */
-
-/* -webkit-animation: breathing 5s ease-out infinite normal;
-animation: breathing 5s ease-out infinite normal;
--webkit-font-smoothing: antialiased; */
-
-@-webkit-keyframes breathing {
-  0% {
-    -webkit-transform: scale(0.9);
-    transform: scale(0.9);
-  }
-
-  25% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-
-  60% {
-    -webkit-transform: scale(0.9);
-    transform: scale(0.9);
-  }
-
-  100% {
-    -webkit-transform: scale(0.9);
-    transform: scale(0.9);
-  }
+.breathing {
+  animation: breathing 2.5s linear infinite;
+  -webkit-font-smoothing: antialiased;
 }
 
 @keyframes breathing {
   0% {
-    -webkit-transform: scale(0.9);
-    -ms-transform: scale(0.9);
-    transform: scale(0.9);
+    -webkit-transform: scale(0.8);
+    -ms-transform: scale(0.8);
+    transform: scale(0.8);
   }
 
-  25% {
-    -webkit-transform: scale(1);
-    -ms-transform: scale(1);
-    transform: scale(1);
-  }
-
-  60% {
-    -webkit-transform: scale(0.9);
-    -ms-transform: scale(0.9);
-    transform: scale(0.9);
+  50% {
+    -webkit-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2);
   }
 
   100% {
-    -webkit-transform: scale(0.9);
-    -ms-transform: scale(0.9);
-    transform: scale(0.9);
+    -webkit-transform: scale(0.8);
+    -ms-transform: scale(0.8);
+    transform: scale(0.8);
   }
 }
 
 .timer-wrapper {
-  margin-top: 32px;
+  margin-top: 50px;
   font-size: 28px;
   font-family: 'Orbitron', sans-serif;
 }
@@ -113,4 +86,13 @@ animation: breathing 5s ease-out infinite normal;
 .loader {
   height: 50px !important;
   width: 50px !important;
+}
+
+.error-message-wrapper {
+  margin-top: 50px;
+}
+
+.error-message {
+  font-weight: bold;
+  color: red;
 }

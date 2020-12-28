@@ -15,13 +15,14 @@ import { validateMintues } from '../utils/Validate';
 
 import './Manual.css';
 
-function Manual(props) {
+const Manual = (props) => {
   const [textButton, setTextButton] = useState('START');
   const [errorMessage, setErrorMessage] = useState('valid');
   const [minutes, setMinutes] = useState(5);
   const [loading, setLoading] = useState('determinate');
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
   const [isFieldDisabled, setIsFieldDisabled] = useState(false);
+  const [isBreathing, setIsBreathing] = useState(false);
   const {
     value,
     controls: { setTime, start, stop },
@@ -31,6 +32,21 @@ function Manual(props) {
     startImmediately: false,
     lastUnit: 'h',
     timeToUpdate: 1000,
+    onStop: () => {
+      setLoading('determinate');
+      setIsSubmitDisabled(false);
+      setIsFieldDisabled(false);
+      setIsBreathing(false);
+    },
+    checkpoints: [
+      {
+        time: 1,
+        callback: () => {
+          stop();
+          setTextButton('START');
+        },
+      },
+    ],
   });
 
   const { user } = props;
@@ -38,25 +54,26 @@ function Manual(props) {
   const startTimer = () => {
     setTime(minutes * 60 * 1000);
     start();
+    setIsBreathing(true);
   };
 
   const stopTimer = () => {
-    setTime(0);
+    // setIsBreathing(false);
     stop();
+    // setIsBreathing(false);
   };
 
   const clickButton = (event) => {
     event.preventDefault();
+    setErrorMessage('valid'); // initial the message.
     setLoading('indeterminate');
     setIsSubmitDisabled(true);
     setIsFieldDisabled(true);
-    if (textButton === 'START') {
-      setErrorMessage(validateMintues(minutes));
-      if (errorMessage !== 'valid') {
-        setLoading('determinate');
-        return;
+    const message = validateMintues(minutes);
+    if (textButton === 'START' && message === 'valid') {
       axios
-        .post(`${user.data().dataplicity}/irrigate_by_minutes/${minutes}`)
+        .post(`${user.data().dataplicity}/stop_irrigate`)
+        // irrigate_by_minutes/${minutes}`)
         .then(() => {
           setTextButton('STOP');
           console.log('irrigation started');
@@ -70,6 +87,11 @@ function Manual(props) {
           setLoading('determinate');
           setIsSubmitDisabled(false);
         });
+    } else if (message !== 'valid') {
+      setLoading('determinate');
+      setIsSubmitDisabled(false);
+      setIsFieldDisabled(false);
+      setErrorMessage(message);
     } else {
       axios
         .post(`${user.data().dataplicity}/stop_irrigate`)
@@ -82,9 +104,6 @@ function Manual(props) {
           console.log("IRRIGATION DIDN'T STOPPTED!!!");
         })
         .finally(() => {
-          setLoading('determinate');
-          setIsSubmitDisabled(false);
-          setIsFieldDisabled(false);
           stopTimer();
         });
     }
@@ -115,7 +134,7 @@ function Manual(props) {
       <div className="breathing-button-wrapper">
         <Button
           id="breathing-button"
-          className="manual-button"
+          className={`manual-button ${isBreathing ? 'breathing' : ''}`}
           variant="contained"
           color={textButton === 'START' ? 'primary' : 'secondary'}
           type="submit"
@@ -128,18 +147,15 @@ function Manual(props) {
       <div className="timer-wrapper" hidden={textButton === 'START'}>
         {formatTimeUnit(value.h)}:{formatTimeUnit(value.m)}:
         {formatTimeUnit(value.s)}
-        {/* {value.h}:{value.m}:{value.s} */}
       </div>
-      <div className="submit-message-wrapper" hidden={errorMessage === 'valid'}>
-        <p className="submit-message" style={{ color: red }}>
-          {errorMessage}
-        </p>
+      <div className="error-message-wrapper" hidden={errorMessage === 'valid'}>
+        <p className="error-message">{errorMessage}</p>
       </div>
       <div className="loader-wrapper">
         <CircularProgress className="loader" variant={loading} />
       </div>
     </form>
   );
-}
+};
 
 export default Manual;

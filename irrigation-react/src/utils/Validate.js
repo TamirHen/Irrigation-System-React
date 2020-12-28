@@ -43,9 +43,7 @@ const validateWeek = (data) => {
 };
 
 const validateMintues = (minutes) => {
-  // console.log(minutes);
-  if (minutes === 0) {
-    console('insideif');
+  if (minutes < 1) {
     return 'Please choose valid number';
   }
   if (minutes > 90) {
