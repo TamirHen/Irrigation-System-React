@@ -8,6 +8,7 @@ import './MainPage.css';
 
 const MainPage = () => {
   const [userEmail, setUserEmail] = useState('');
+  const [user, setUser] = useState({});
 
   const [week, setWeek] = useState({
     sunday: false,
@@ -52,8 +53,9 @@ const MainPage = () => {
     setWeek(updatedWeek);
   };
 
-  const setData = (email, userData) => {
+  const setData = (email, userData, loggenInUser) => {
     setUserEmail(email);
+    setUser(loggenInUser);
 
     setWeek({
       sunday: userData.sunday,
@@ -97,6 +99,7 @@ const MainPage = () => {
           week={week}
           updateDay={updateDay}
           userEmail={userEmail}
+          user={user}
         />
       </div>
     </>

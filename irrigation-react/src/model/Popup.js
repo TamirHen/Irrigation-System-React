@@ -62,7 +62,7 @@ class Popup extends React.Component {
                   console.log('login successfully');
                   // this.closeModal();
                   this.onLoginSuccess('form');
-                  this.props.setData(email, response.data);
+                  this.props.setData(email, response.data, user);
                 })
                 .catch((error) => {
                   console.log(error);

@@ -7,8 +7,7 @@ import React, { useState } from 'react';
 import { Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
-import validateWeek from '../utils/Validate';
-import { firestore } from '../utils/Firebase';
+import { validateWeek } from '../utils/Validate';
 
 import Day from '../components/Day';
 import Cycle from '../components/Cycle';
@@ -18,10 +17,10 @@ import './Auto.css';
 function Auto(props) {
   const [loading, setLoading] = useState('determinate');
   const [submitMessage, setSubmitMessage] = useState('');
-  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
   const [textColor, setTextColor] = useState('red');
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
 
-  const { rounds, week, updateRound, updateDay, userEmail } = props;
+  const { rounds, week, updateRound, updateDay, userEmail, user } = props;
 
   const setMessage = (message) => {
     setLoading('determinate');
@@ -38,7 +37,6 @@ function Auto(props) {
     setIsSubmitDisabled(true);
     setMessage('');
     setLoading('indeterminate');
-    const db = firestore;
 
     const data = {
       ...week,
@@ -80,22 +78,12 @@ function Auto(props) {
     const validationMessage = validateWeek(data);
 
     if (validationMessage === 'valid') {
-      db.collection('users')
-        .doc(userEmail)
-        .get()
-        .then((user) => {
-          axios
-            .post(`${user.data().dataplicity}/update_week`, data)
-            .then(() => {
-              console.log('data updated successfully');
-              setMessage('Done');
-              setIsSubmitDisabled(false);
-            })
-            .catch((error) => {
-              console.log(error);
-              setMessage('Connection error, please try again later');
-              setIsSubmitDisabled(false);
-            });
+      axios
+        .post(`${user.data().dataplicity}/update_week`, data)
+        .then(() => {
+          console.log('data updated successfully');
+          setMessage('Done');
+          setIsSubmitDisabled(false);
         })
         .catch((error) => {
           console.log(error);

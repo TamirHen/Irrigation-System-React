@@ -42,4 +42,16 @@ const validateWeek = (data) => {
   return 'valid';
 };
 
-export default validateWeek;
+const validateMintues = (minutes) => {
+  // console.log(minutes);
+  if (minutes === 0) {
+    console('insideif');
+    return 'Please choose valid number';
+  }
+  if (minutes > 90) {
+    return "Can't irrigate more then 90 minutes manually";
+  }
+  return 'valid';
+};
+
+export { validateWeek, validateMintues };

@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-console */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/require-default-props */
@@ -12,10 +13,12 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import { Timer, Today, LocalFlorist } from '@material-ui/icons';
 
 import Auto from '../Tabs/Auto';
 
 import './TabFrame.css';
+import Manual from '../Tabs/Manual';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -84,9 +87,9 @@ export default function FullWidthTabs(props) {
           aria-label="tabs"
           centered
         >
-          <Tab label="Manual" {...a11yProps(0)} />
-          <Tab label="Auto" {...a11yProps(1)} />
-          <Tab label="State" {...a11yProps(2)} />
+          <Tab label="Manual" icon={<Timer />} {...a11yProps(0)} />
+          <Tab label="Auto" icon={<Today />} {...a11yProps(1)} />
+          <Tab label="State" icon={<LocalFlorist />} {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -95,7 +98,7 @@ export default function FullWidthTabs(props) {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          {/* <Button className="manual-start" variant="" */}
+          <Manual user={props.user} />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <Auto {...props} />

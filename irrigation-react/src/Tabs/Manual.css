@@ -1,0 +1,116 @@
+.manual-button {
+  /* width: 100px;
+    height: 100px;
+    border-radius: 50% !important;
+    border: 5px 50% solid green;
+    box-shadow: 1px 1px 2px 0px #6b79c7; */
+}
+
+.manual-irrigation-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.minutes-input-wrapper {
+  margin-top: 20px;
+}
+
+.breathing-button-wrapper {
+  margin-top: 35px;
+}
+
+#minutes-input {
+  width: 95px;
+}
+
+#breathing-button {
+  width: 160px;
+  height: 160px;
+  border-radius: 50% !important;
+  border: 7px solid #cecbcb !important;
+  font-size: 16px;
+  border-radius: 2px;
+  text-align: center;
+  /* background: #25b148; */
+  text-align: center;
+  font-weight: bold;
+  font-size: 22px;
+}
+
+#breathing-button:active {
+  transform: scale(0.9);
+}
+
+#breathing-button:disabled {
+  transform: scale(0.9);
+  border-color: #cac9c9 !important;
+}
+
+/* breathing effetc: */
+
+/* -webkit-animation: breathing 5s ease-out infinite normal;
+animation: breathing 5s ease-out infinite normal;
+-webkit-font-smoothing: antialiased; */
+
+@-webkit-keyframes breathing {
+  0% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+
+  25% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+  60% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+
+  100% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+}
+
+@keyframes breathing {
+  0% {
+    -webkit-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+
+  25% {
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+  }
+
+  60% {
+    -webkit-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+
+  100% {
+    -webkit-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+}
+
+.timer-wrapper {
+  margin-top: 32px;
+  font-size: 28px;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.loader-wrapper {
+  margin-top: 35px;
+}
+
+.loader {
+  height: 50px !important;
+  width: 50px !important;
+}

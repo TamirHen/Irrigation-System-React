@@ -10,6 +10,19 @@
   margin: auto 35px;
 }
 
+.MuiTab-wrapper {
+  flex-direction: row !important;
+}
+
+.MuiTab-labelIcon {
+  min-height: auto !important;
+  padding-top: 12px !important
+}
+
+.MuiSvgIcon-root {
+  margin-right: 8px;
+}
+
 /* .tab {
     width: 500px;
 } */
