@@ -58,9 +58,7 @@ const Manual = (props) => {
   };
 
   const stopTimer = () => {
-    // setIsBreathing(false);
     stop();
-    // setIsBreathing(false);
   };
 
   const clickButton = (event) => {
@@ -72,8 +70,9 @@ const Manual = (props) => {
     const message = validateMintues(minutes);
     if (textButton === 'START' && message === 'valid') {
       axios
-        .post(`${user.data().dataplicity}/stop_irrigate`)
-        // irrigate_by_minutes/${minutes}`)
+        .post(`${user.data().dataplicity}/irrigate_by_minutes/${minutes}`, {
+          timeout: 10 * 1000,
+        })
         .then(() => {
           setTextButton('STOP');
           console.log('irrigation started');
@@ -94,7 +93,9 @@ const Manual = (props) => {
       setErrorMessage(message);
     } else {
       axios
-        .post(`${user.data().dataplicity}/stop_irrigate`)
+        .post(`${user.data().dataplicity}/stop_irrigate`, {
+          timeout: 10 * 1000,
+        })
         .then(() => {
           setTextButton('START');
           console.log('irrigation stopped');

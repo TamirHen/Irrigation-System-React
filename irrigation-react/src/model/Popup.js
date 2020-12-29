@@ -22,6 +22,7 @@ class Popup extends React.Component {
       error: null,
       loggedIn: null,
       initialTab: 'login',
+      customError: null,
     };
   }
 
@@ -47,6 +48,7 @@ class Popup extends React.Component {
 
     this.setState({
       error: null,
+      customError: null,
     });
 
     auth.signInWithEmailAndPassword(email, password).then(
@@ -57,7 +59,9 @@ class Popup extends React.Component {
           .then((user) => {
             if (user.exists) {
               axios
-                .get(`${user.data().dataplicity}/get_week`)
+                .get(`${user.data().dataplicity}/get_week`, {
+                  timeout: 10 * 1000,
+                })
                 .then((response) => {
                   console.log('login successfully');
                   // this.closeModal();
@@ -66,7 +70,9 @@ class Popup extends React.Component {
                 })
                 .catch((error) => {
                   console.log(error);
-                  this.errorHandler();
+                  this.errorHandler(
+                    "Connection error: please check raspberry's internet connection",
+                  );
                 });
             } else {
               console.log('No such document');
@@ -79,7 +85,7 @@ class Popup extends React.Component {
           });
       },
       (err) => {
-        this.errorHandler();
+        this.errorHandler('Incorrect email or password');
       },
     );
   }
@@ -93,6 +99,7 @@ class Popup extends React.Component {
 
     this.setState({
       error: null,
+      customError: null,
     });
 
     auth.createUserWithEmailAndPassword(email, password).then(
@@ -100,26 +107,22 @@ class Popup extends React.Component {
         db.collection('users').doc(email).set({
           dataplicity: urlCode,
         });
-
-        // Needs to override error message when user signup successfully but could't connect to the pi.
         axios
-          .get(`${urlCode}/get_week`)
+          .get(`${urlCode}/get_week`, { timeout: 10 * 1000 })
           .then((response) => {
             console.log('signed up and connected to pi successfully');
-            // this.closeModal();
             this.onLoginSuccess('form');
             this.props.setData(email, response.data);
           })
           .catch((error) => {
             console.log(error);
-            console.log(
-              'Sing up successfully, there was a problem with the connection to the pi',
+            this.errorHandler(
+              'Signed up successfully! There was a problem connecting to the raspberry',
             );
-            this.errorHandler();
           });
       },
-      () => {
-        this.errorHandler();
+      (error) => {
+        this.errorHandler(error.message);
       },
     );
   }
@@ -157,9 +160,10 @@ class Popup extends React.Component {
     });
   }
 
-  errorHandler() {
+  errorHandler(customError) {
     this.setState({
       error: true,
+      customError,
     });
     this.finishLoading();
   }
@@ -179,11 +183,13 @@ class Popup extends React.Component {
             }}
             loginError={{
               // containerClass: "error-message",
-              label: "Couldn't sign in, please try again",
+              label:
+                this.state.customError || "Couldn't sign in, please try again",
             }}
             registerError={{
               // containerClass: "error-message",
-              label: "Couldn't sign up, please try again",
+              label:
+                this.state.customError || "Couldn't sign up, please try again",
             }}
             startLoading={this.startLoading.bind(this)}
             finishLoading={this.finishLoading.bind(this)}

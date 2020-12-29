@@ -79,7 +79,9 @@ function Auto(props) {
 
     if (validationMessage === 'valid') {
       axios
-        .post(`${user.data().dataplicity}/update_week`, data)
+        .post(`${user.data().dataplicity}/update_week`, data, {
+          timeout: 10 * 1000,
+        })
         .then(() => {
           console.log('data updated successfully');
           setMessage('Done');
@@ -126,6 +128,7 @@ function Auto(props) {
       </div>
       <div className="Submit-button-wrapper">
         <Button
+          className="submit-button"
           variant="contained"
           color="primary"
           type="submit"
