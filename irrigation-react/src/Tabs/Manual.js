@@ -152,7 +152,7 @@ const Manual = (props) => {
       <div className="error-message-wrapper" hidden={errorMessage === 'valid'}>
         <p className="error-message">{errorMessage}</p>
       </div>
-      <div className="loader-wrapper">
+      <div className="loader-wrapper" hidden={loading === 'determinate'}>
         <CircularProgress className="loader" variant={loading} />
       </div>
     </form>

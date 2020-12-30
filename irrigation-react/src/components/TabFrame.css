@@ -7,15 +7,27 @@
 }
 
 .tab-object-wrapper {
-  margin: auto 35px;
+  margin: auto 26px auto 34px;
 }
 
-.MuiBox-root {
-  background-color: #E7F9FF;
-}
+/* .MuiBox-root {
+  background-color: transparent !important;
+  border-bottom-left-radius: 12% !important;
+  border-bottom-right-radius: 12% !important;
+} */
 
 .MuiTab-wrapper {
   flex-direction: row !important;
+}
+
+.MuiTabs-root {
+  border-radius: 10px 10px 0px 0px !important;
+  z-index: 2 !important;
+}
+
+.MuiPaper-root {
+  border-radius: 10px 10px 0px 0px !important;
+  z-index: 2 !important;
 }
 
 .MuiTab-labelIcon {
@@ -30,3 +42,9 @@
 /* .tab {
     width: 500px;
 } */
+
+.tab-frame {
+  /* background-color: transparent !important; */
+  border-radius: 10px !important;
+  border-radius: 10px !important;
+}

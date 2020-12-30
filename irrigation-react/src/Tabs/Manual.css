@@ -17,6 +17,7 @@
 
 .breathing-button-wrapper {
   margin-top: 50px;
+  margin-bottom: 40px;
 }
 
 #minutes-input {
@@ -74,15 +75,15 @@
 }
 
 .timer-wrapper {
-  margin-top: 50px;
+  /* margin-top: 50px; */
   font-size: 28px;
   /* font-family: 'Orbitron', sans-serif; */
   font-family: 'Roboto Mono', monospace;
 }
-
+/* 
 .loader-wrapper {
-  margin-top: 35px;
-}
+  margin-top: 10px;
+} */
 
 .loader {
   height: 50px !important;

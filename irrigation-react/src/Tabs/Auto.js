@@ -143,7 +143,7 @@ function Auto(props) {
           {submitMessage}
         </p>
       </div>
-      <div className="loader-wrapper">
+      <div className="loader-wrapper" hidden={loading === 'determinate'}>
         <CircularProgress className="loader" variant={loading} />
       </div>
     </form>
