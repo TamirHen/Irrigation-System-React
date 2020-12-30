@@ -10,13 +10,17 @@
   margin: auto 35px;
 }
 
+.MuiBox-root {
+  background-color: #E7F9FF;
+}
+
 .MuiTab-wrapper {
   flex-direction: row !important;
 }
 
 .MuiTab-labelIcon {
   min-height: auto !important;
-  padding-top: 12px !important
+  padding-top: 12px !important;
 }
 
 .MuiSvgIcon-root {

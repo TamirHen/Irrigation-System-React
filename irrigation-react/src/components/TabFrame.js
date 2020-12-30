@@ -87,9 +87,9 @@ export default function FullWidthTabs(props) {
           aria-label="tabs"
           centered
         >
-          <Tab label="Manual" icon={<Timer />} {...a11yProps(0)} />
-          <Tab label="Auto" icon={<Today />} {...a11yProps(1)} />
-          <Tab label="State" icon={<LocalFlorist />} {...a11yProps(2)} />
+          <Tab label="State" icon={<LocalFlorist />} {...a11yProps(0)} />
+          <Tab label="Manual" icon={<Timer />} {...a11yProps(1)} />
+          <Tab label="Auto" icon={<Today />} {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -98,9 +98,12 @@ export default function FullWidthTabs(props) {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <Manual user={props.user} />
+          Test
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
+          <Manual user={props.user} />
+        </TabPanel>
+        <TabPanel value={value} index={2} dir={theme.direction}>
           <Auto {...props} />
         </TabPanel>
       </SwipeableViews>

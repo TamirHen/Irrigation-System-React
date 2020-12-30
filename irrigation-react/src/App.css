@@ -1,0 +1,28 @@
+.sun-svg {
+    position: absolute;
+    height: 75px;
+    top: 40px;
+    right: 90px;
+}
+
+.cloud-svg {
+    position: absolute;
+    height: 55px;
+}
+
+.tree-svg {
+    position: absolute;
+    height: 250px;
+}
+
+.mirror {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);  
+}
+
+.gardening-grass-svg {
+    position: absolute;
+    height: 70px;
+    bottom: 80px;
+    left: 250px;
+}
