@@ -1,15 +1,11 @@
 .sun-svg {
   position: absolute;
-  height: 75px;
-  top: 40px;
-  right: 90px;
-  z-index:-1;
+  z-index:-4;
 }
 
 .cloud-svg {
   position: absolute;
-  height: 35px;
-  z-index:-2;
+  z-index:-1;
 }
 
 .tree-svg {
