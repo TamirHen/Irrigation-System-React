@@ -7,7 +7,7 @@
 }
 
 .tab-object-wrapper {
-  margin: auto 26px auto 34px;
+  margin: auto 19px auto 27px;
 }
 
 /* .MuiBox-root {
@@ -47,4 +47,5 @@
   /* background-color: transparent !important; */
   border-radius: 10px !important;
   border-radius: 10px !important;
+  box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
 }

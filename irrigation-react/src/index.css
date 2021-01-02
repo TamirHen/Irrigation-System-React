@@ -2,7 +2,19 @@ html {
   /* background-image: linear-gradient(to bottom, #43d0ff, #7adcfe, #8fe2fe, #a3e8fe, #a3e8fe, #aaecfd, #b1f0fc, #b9f4fb, #baf8f6, #baf8f6, #c6fdea, #cfffe3); */
   background-image: linear-gradient(
     to bottom,
-    #bcedfc,
+    /* #bcedfc,
+    #d5f3ff,
+    #e5f8ff,
+    #e6f8ff,
+    #e9f9ff,
+    #ecfaff,
+    #e6f6fc,
+    #edf9fd,
+    #edf9fd,
+    #f2fafd,
+    #d9ffed,
+    #c3ffe3 */
+      #bcedfc,
     #d5f3ff,
     #e5f8ff,
     #e6f8ff,
@@ -26,6 +38,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   z-index: 1;
+  background-color: transparent !important;
 }
 
 code {

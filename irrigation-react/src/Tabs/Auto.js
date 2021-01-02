@@ -3,11 +3,12 @@
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
 import { validateWeek } from '../utils/Validate';
+import { UserContext } from '../providers/UserProvider';
 
 import Day from '../components/Day';
 import Cycle from '../components/Cycle';
@@ -15,12 +16,20 @@ import Cycle from '../components/Cycle';
 import './Auto.css';
 
 function Auto(props) {
+  const user = useContext(UserContext);
   const [loading, setLoading] = useState('determinate');
   const [submitMessage, setSubmitMessage] = useState('');
   const [textColor, setTextColor] = useState('red');
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
 
-  const { rounds, week, updateRound, updateDay, userEmail, user } = props;
+  const {
+    rounds,
+    week,
+    updateRound,
+    updateDay,
+    urlCode,
+    sessionExpired,
+  } = props;
 
   const setMessage = (message) => {
     setLoading('determinate');
@@ -78,20 +87,25 @@ function Auto(props) {
     const validationMessage = validateWeek(data);
 
     if (validationMessage === 'valid') {
-      axios
-        .post(`${user.data().dataplicity}/update_week`, data, {
-          timeout: 10 * 1000,
-        })
-        .then(() => {
-          console.log('data updated successfully');
-          setMessage('Done');
-          setIsSubmitDisabled(false);
-        })
-        .catch((error) => {
-          console.log(error);
-          setMessage('Connection error, please try again later');
-          setIsSubmitDisabled(false);
-        });
+      if (user) {
+        axios
+          .post(`${urlCode}/update_week`, data, {
+            timeout: 10 * 1000,
+          })
+          .then(() => {
+            console.log('data updated successfully');
+            setMessage('Done');
+            setIsSubmitDisabled(false);
+          })
+          .catch((error) => {
+            console.log(error);
+            setMessage('Connection error, please try again later');
+            setIsSubmitDisabled(false);
+          });
+      } else {
+        console.log('User has logged out - session expired!');
+        sessionExpired();
+      }
     } else {
       setMessage(validationMessage);
       setIsSubmitDisabled(false);

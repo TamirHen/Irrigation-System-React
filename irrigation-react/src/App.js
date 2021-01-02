@@ -1,13 +1,13 @@
-/* eslint-disable react/react-in-jsx-scope */
-import MainPage from './pages/MainPage';
-import Background from './components/Background';
+import React from 'react';
+
+import UserProvider from './providers/UserProvider';
+import Application from './Application';
 
 function App() {
   return (
-    <>
-      <Background style={{ zIndex: 0 }} />
-      <MainPage key="main-page" />
-    </>
+    <UserProvider>
+      <Application />;
+    </UserProvider>
   );
 }
 

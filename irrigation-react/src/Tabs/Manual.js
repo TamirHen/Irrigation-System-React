@@ -2,20 +2,21 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-expressions */
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useTimer } from 'react-compound-timer';
-import { red } from '@material-ui/core/colors';
 import formatTimeUnit from '../utils/FormatTimeUnit';
+import { UserContext } from '../providers/UserProvider';
 
 import { validateMintues } from '../utils/Validate';
 
 import './Manual.css';
 
 const Manual = (props) => {
+  const user = useContext(UserContext);
   const [textButton, setTextButton] = useState('START');
   const [errorMessage, setErrorMessage] = useState('valid');
   const [minutes, setMinutes] = useState(5);
@@ -37,6 +38,7 @@ const Manual = (props) => {
       setIsSubmitDisabled(false);
       setIsFieldDisabled(false);
       setIsBreathing(false);
+      setErrorMessage('valid');
     },
     checkpoints: [
       {
@@ -49,7 +51,7 @@ const Manual = (props) => {
     ],
   });
 
-  const { user } = props;
+  const { urlCode, sessionExpired } = props;
 
   const startTimer = () => {
     setTime(minutes * 60 * 1000);
@@ -69,44 +71,55 @@ const Manual = (props) => {
     setIsFieldDisabled(true);
     const message = validateMintues(minutes);
     if (textButton === 'START' && message === 'valid') {
-      axios
-        .post(`${user.data().dataplicity}/irrigate_by_minutes/${minutes}`, {
-          timeout: 10 * 1000,
-        })
-        .then(() => {
-          setTextButton('STOP');
-          console.log('irrigation started');
-          startTimer();
-        })
-        .catch((error) => {
-          console.log(error);
-          setIsFieldDisabled(false);
-        })
-        .finally(() => {
-          setLoading('determinate');
-          setIsSubmitDisabled(false);
-        });
+      if (user) {
+        axios
+          .post(`${urlCode}/irrigate_by_minutes/${minutes}`, {
+            timeout: 10 * 1000,
+          })
+          .then(() => {
+            setTextButton('STOP');
+            console.log('irrigation started');
+            startTimer();
+          })
+          .catch((error) => {
+            console.log(error);
+            setIsFieldDisabled(false);
+          })
+          .finally(() => {
+            setLoading('determinate');
+            setIsSubmitDisabled(false);
+          });
+      } else {
+        console.log('User has logged out - session expired!');
+        sessionExpired();
+      }
     } else if (message !== 'valid') {
       setLoading('determinate');
       setIsSubmitDisabled(false);
       setIsFieldDisabled(false);
       setErrorMessage(message);
-    } else {
+    } else if (user) {
       axios
-        .post(`${user.data().dataplicity}/stop_irrigate`, {
+        .post(`${urlCode}/stop_irrigate`, {
           timeout: 10 * 1000,
         })
         .then(() => {
           setTextButton('START');
           console.log('irrigation stopped');
+          stopTimer();
         })
         .catch((error) => {
           console.log(error);
           console.log("IRRIGATION DIDN'T STOPPTED!!!");
-        })
-        .finally(() => {
-          stopTimer();
+          setErrorMessage(
+            "IRRIGATION DIDN'T STOPPTED!\nPlease check the internet connection your raspberry is using",
+          );
+          setLoading('determinate');
+          setIsSubmitDisabled(false);
         });
+    } else {
+      console.log('User has logged out - session expired!');
+      sessionExpired();
     }
   };
 

@@ -4,9 +4,7 @@ import './Birds.scss';
 
 function Birds() {
   return (
-    <div className="container">
-      <h1>SVG Animated Birds</h1>
-
+    <>
       <div className="bird-container bird-container--one">
         <div className="bird bird--one" />
       </div>
@@ -22,7 +20,7 @@ function Birds() {
       <div className="bird-container bird-container--four">
         <div className="bird bird--four" />
       </div>
-    </div>
+    </>
   );
 }
 

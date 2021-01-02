@@ -8,7 +8,6 @@
 import React from 'react';
 import ReactModalLogin from 'react-modal-login';
 import axios from 'axios';
-import { auth, firestore } from '../utils/Firebase';
 
 import './Popup.css';
 
@@ -17,13 +16,14 @@ class Popup extends React.Component {
     super(props);
 
     this.state = {
-      showModal: true,
+      showModal: !props.user,
       loading: false,
       error: null,
       loggedIn: null,
       initialTab: 'login',
       customError: null,
     };
+    console.log(props.user);
   }
 
   openModal() {
@@ -42,7 +42,7 @@ class Popup extends React.Component {
 
   onLogin() {
     this.startLoading();
-    const db = firestore;
+    const db = this.props.firestore;
     const email = document.querySelector('#email-login').value;
     const password = document.querySelector('#password-login').value;
 
@@ -51,22 +51,22 @@ class Popup extends React.Component {
       customError: null,
     });
 
-    auth.signInWithEmailAndPassword(email, password).then(
-      (cred) => {
+    this.props.auth.signInWithEmailAndPassword(email, password).then(
+      (user) => {
         db.collection('users')
-          .doc(email)
+          .doc(user.user.email)
           .get()
-          .then((user) => {
-            if (user.exists) {
+          .then((userData) => {
+            if (userData.exists) {
+              const urlCode = userData.data().dataplicity;
               axios
-                .get(`${user.data().dataplicity}/get_week`, {
+                .get(`${urlCode}/get_week`, {
                   timeout: 10 * 1000,
                 })
                 .then((response) => {
                   console.log('login successfully');
-                  // this.closeModal();
                   this.onLoginSuccess('form');
-                  this.props.setData(email, response.data, user);
+                  this.props.setData(urlCode, response.data);
                 })
                 .catch((error) => {
                   console.log(error);
@@ -92,7 +92,7 @@ class Popup extends React.Component {
 
   onRegister() {
     this.startLoading();
-    const db = firestore;
+    const db = this.props.firestore;
     const email = document.querySelector('#email-signup').value;
     const password = document.querySelector('#password-signup').value;
     const urlCode = document.querySelector('#urlCode-signup').value;
@@ -102,9 +102,9 @@ class Popup extends React.Component {
       customError: null,
     });
 
-    auth.createUserWithEmailAndPassword(email, password).then(
-      (cred) => {
-        db.collection('users').doc(email).set({
+    this.props.auth.createUserWithEmailAndPassword(email, password).then(
+      (user) => {
+        db.collection('users').doc(user.user.email).set({
           dataplicity: urlCode,
         });
         axios
@@ -112,7 +112,7 @@ class Popup extends React.Component {
           .then((response) => {
             console.log('signed up and connected to pi successfully');
             this.onLoginSuccess('form');
-            this.props.setData(email, response.data);
+            this.props.setData(urlCode, response.data);
           })
           .catch((error) => {
             console.log(error);

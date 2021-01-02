@@ -1,14 +1,22 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable no-console */
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import FullWidthTabs from '../components/TabFrame';
 import Popup from '../model/Popup';
+import { auth, firestore } from '../utils/Firebase';
+import { UserContext } from '../providers/UserProvider';
+import { ReactComponent as BalloonSVG } from '../images/hot-air-balloon.svg';
 
 import './MainPage.css';
 
 const MainPage = () => {
-  const [userEmail, setUserEmail] = useState('');
-  const [user, setUser] = useState({});
+  const user = useContext(UserContext);
+  const [urlCode, setUrlCode] = useState('');
+  const [hoverAnimation, setHoverAnimation] = useState('');
+  // const [userEmail, setUserEmail] = useState('');
+  // const [user, setUser] = useState({});
+  // const [showPopup, setShowPopup] = useState(true);
 
   const [week, setWeek] = useState({
     sunday: false,
@@ -53,9 +61,11 @@ const MainPage = () => {
     setWeek(updatedWeek);
   };
 
-  const setData = (email, userData, loggenInUser) => {
-    setUserEmail(email);
-    setUser(loggenInUser);
+  const setData = (code, userData) => {
+    // setShowPopup(false);
+    setUrlCode(code);
+    // setUserEmail(authUser.user.email);
+    // setUser(authUser);
 
     setWeek({
       sunday: userData.sunday,
@@ -86,9 +96,55 @@ const MainPage = () => {
     });
   };
 
+  const logout = () => {
+    auth
+      .signOut()
+      .then(() => {
+        console.log('Sign-out successfully');
+        // setUserEmail('');
+        setUrlCode('');
+        setWeek({
+          sunday: false,
+          monday: false,
+          tuesday: false,
+          wednesday: false,
+          thursday: false,
+          friday: false,
+          saturday: false,
+        });
+        setRounds({
+          round1: {
+            isActive: false,
+            startTime: null,
+            endTime: null,
+          },
+          round2: {
+            isActive: false,
+            startTime: null,
+            endTime: null,
+          },
+          round3: {
+            isActive: false,
+            startTime: null,
+            endTime: null,
+          },
+        });
+        // setShowPopup(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
-      <Popup setData={setData} key="popup" />
+      <Popup
+        auth={auth}
+        firestore={firestore}
+        setData={setData}
+        key={`popup-${user}`}
+        user={user}
+      />
       <div className="main-container">
         <div className="title-wrapper">
           <h1>Home Irrigation System</h1>
@@ -98,10 +154,20 @@ const MainPage = () => {
           updateRound={updateRound}
           week={week}
           updateDay={updateDay}
-          userEmail={userEmail}
-          user={user}
+          urlCode={urlCode}
+          sessionExpired={logout}
         />
       </div>
+      <BalloonSVG
+        className={`signout ${hoverAnimation}`}
+        onClick={logout}
+        onMouseEnter={() => {
+          setHoverAnimation('balloon-animation');
+        }}
+        onAnimationEnd={() => {
+          setHoverAnimation('');
+        }}
+      />
     </>
   );
 };

@@ -101,7 +101,7 @@ export default function FullWidthTabs(props) {
           Test
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <Manual user={props.user} />
+          <Manual {...props} />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           <Auto {...props} />

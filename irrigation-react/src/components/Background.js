@@ -2,19 +2,20 @@ import React from 'react';
 import { ReactComponent as SunSVG } from '../images/sun.svg';
 import { ReactComponent as CloudSVG } from '../images/cloud.svg';
 
-import Birds from '../model/Birds';
+// import Birds from '../model/Birds';
 
 import './Background.css';
 
 function Background() {
   return (
     <>
+      {/* <Birds /> */}
       <SunSVG
         className="sun-svg"
         style={{ top: '40px', right: '8%', height: '100px' }}
       />
       <CloudSVG
-        className="cloud-svg"
+        className="cloud-svg mirror"
         style={{ top: '30px', left: '28%', height: '70px', zIndex: -3 }}
       />
       <CloudSVG
@@ -29,7 +30,10 @@ function Background() {
         className="cloud-svg"
         style={{ top: '220px', right: '23%', height: '65px', zIndex: -3 }}
       />
-      <Birds />
+      <CloudSVG
+        className="cloud-svg mirror"
+        style={{ top: '320px', left: '53%', height: '40px' }}
+      />
     </>
   );
 }
