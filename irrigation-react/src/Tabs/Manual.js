@@ -84,6 +84,7 @@ const Manual = (props) => {
           .catch((error) => {
             console.log(error);
             setIsFieldDisabled(false);
+            setErrorMessage('Connection error, please try again later');
           })
           .finally(() => {
             setLoading('determinate');
@@ -139,12 +140,6 @@ const Manual = (props) => {
           disabled={isFieldDisabled}
         />
       </div>
-      {/* <Timer
-        className="timer"
-        // initialTime={minutes * 60 * 1000}
-      > */}
-      {/* {() => (
-          <> */}
       <div className="breathing-button-wrapper">
         <Button
           id="breathing-button"
@@ -153,7 +148,6 @@ const Manual = (props) => {
           color={textButton === 'START' ? 'primary' : 'secondary'}
           type="submit"
           disabled={isSubmitDisabled}
-          //   onClick={textButton === 'START' ? start : stop}
         >
           {textButton}
         </Button>
