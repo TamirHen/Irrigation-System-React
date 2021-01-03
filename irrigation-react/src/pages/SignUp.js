@@ -1,6 +1,7 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Link } from 'react-router-dom';
+import { UserContext } from '../providers/UserProvider';
 
 import { generateUserDocument, auth } from '../utils/Firebase';
 
@@ -53,6 +55,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
+  const user = useContext(UserContext);
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');

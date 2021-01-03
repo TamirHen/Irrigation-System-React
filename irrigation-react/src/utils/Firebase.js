@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable consistent-return */
 /* eslint-disable no-use-before-define */
 import firebase from 'firebase/app';
@@ -28,12 +29,13 @@ export const generateUserDocument = async (user, additionalData) => {
   const userRef = firestore.collection('users').doc(email);
   const userDoc = await userRef.get();
   if (!userDoc.exists) {
-    if (!additionalData) return;
-    console.log(additionalData);
     try {
-      await userRef.set({
-        ...additionalData,
-      });
+      await userRef.set(
+        {
+          ...additionalData,
+        },
+        { merge: true },
+      );
     } catch (error) {
       console.error('Error creating user document', error);
     }

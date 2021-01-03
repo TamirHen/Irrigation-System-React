@@ -11,9 +11,10 @@
 .signout {
   position: absolute;
   position: absolute;
-  top: 530px;
+  bottom: 55px;
   left: 7%;
-  height: 180px;
+  /* height: 175px; */
+  width: 90px;
   cursor: pointer;
   /* transition: transform 1s; */
 }

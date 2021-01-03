@@ -6,7 +6,7 @@ import Application from './Application';
 function App() {
   return (
     <UserProvider>
-      <Application />;
+      <Application />
     </UserProvider>
   );
 }
