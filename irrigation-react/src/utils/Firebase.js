@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-use-before-define */
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
@@ -16,4 +18,38 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export const auth = firebase.auth();
+
 export const firestore = firebase.firestore();
+
+export const generateUserDocument = async (user, additionalData) => {
+  // const firestore = firebase.firestore();
+  if (!user) return;
+  const { email } = user;
+  const userRef = firestore.collection('users').doc(email);
+  const userDoc = await userRef.get();
+  if (!userDoc.exists) {
+    if (!additionalData) return;
+    console.log(additionalData);
+    try {
+      await userRef.set({
+        ...additionalData,
+      });
+    } catch (error) {
+      console.error('Error creating user document', error);
+    }
+  }
+  return getUserDocument(email);
+};
+
+const getUserDocument = async (email) => {
+  if (!email) return null;
+  try {
+    const userDocument = await firestore.collection('users').doc(email).get();
+    return {
+      ...userDocument.data(),
+    };
+  } catch (error) {
+    console.error('Error fetching user', error);
+  }
+  return 'Could not find document.';
+};

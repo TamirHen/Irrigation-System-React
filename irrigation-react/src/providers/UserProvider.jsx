@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/state-in-constructor */
 import React, { Component, createContext } from 'react';
-import { auth } from '../utils/Firebase';
+import { auth, generateUserDocument } from '../utils/Firebase';
 
 export const UserContext = createContext({ user: null });
 class UserProvider extends Component {
@@ -9,9 +9,17 @@ class UserProvider extends Component {
     user: null,
   };
 
-  componentDidMount = () => {
-    auth.onAuthStateChanged((userAuth) => {
-      this.setState({ user: userAuth });
+  // componentDidMount = () => {
+  //   auth.onAuthStateChanged((userAuth) => {
+  //     this.setState({ user: userAuth });
+  //   });
+  // };
+
+  componentDidMount = async () => {
+    auth.onAuthStateChanged(async (userAuth) => {
+      console.log('from onAuthStateChange - user: ', userAuth);
+      const user = await generateUserDocument(userAuth);
+      this.setState({ user });
     });
   };
 

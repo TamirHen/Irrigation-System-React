@@ -1,11 +1,10 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -14,12 +13,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Link } from 'react-router-dom';
 
+import { generateUserDocument, auth } from '../utils/Firebase';
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link to="/" color="inherit">
+        Smart Irrigation System
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -45,10 +46,36 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  error: {
+    color: 'red',
+  },
 }));
 
 export default function SignUp() {
   const classes = useStyles();
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [urlCode, setUrlCode] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const errorHandler = (customError) => {
+    setErrorMessage(customError || "Couldn't sign up, please try again");
+  };
+
+  const signUp = (event) => {
+    event.preventDefault();
+    setErrorMessage('');
+    auth.createUserWithEmailAndPassword(email, password).then(
+      (cred) => {
+        generateUserDocument(cred.user, { firstName, lastName, urlCode });
+      },
+      (error) => {
+        errorHandler(error.message);
+      },
+    );
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -60,7 +87,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} onSubmit={signUp}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -72,6 +99,9 @@ export default function SignUp() {
                 id="firstName"
                 label="First Name"
                 autoFocus
+                onChange={(e) => {
+                  setFirstName(e.target.value);
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -83,6 +113,9 @@ export default function SignUp() {
                 label="Last Name"
                 name="lastName"
                 autoComplete="lname"
+                onChange={(e) => {
+                  setLastName(e.target.value);
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -94,6 +127,9 @@ export default function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -106,12 +142,23 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
               />
             </Grid>
             <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="URL Code"
+                label="URL Code"
+                type="text"
+                id="urlCode"
+                onChange={(e) => {
+                  setUrlCode(e.target.value);
+                }}
               />
             </Grid>
           </Grid>
@@ -124,6 +171,7 @@ export default function SignUp() {
           >
             Sign Up
           </Button>
+          <p className={classes.error}>{errorMessage}</p>
           <Grid container justify="flex-end">
             <Grid item>
               <Link to="/" variant="body2">

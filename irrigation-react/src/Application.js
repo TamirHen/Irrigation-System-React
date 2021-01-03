@@ -9,6 +9,11 @@ import SignUp from './pages/SignUp';
 
 function Application() {
   const user = useContext(UserContext);
+  // const [data, setData] = useState();
+
+  // const setUserData = (userData) => {
+  //   setData(userData);
+  // };
 
   return user ? (
     <MainPage key="main-page" />

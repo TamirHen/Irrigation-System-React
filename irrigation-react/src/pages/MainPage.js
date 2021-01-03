@@ -1,22 +1,20 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable no-console */
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
+import axios from 'axios';
 import FullWidthTabs from '../components/TabFrame';
-import Popup from '../model/Popup';
-import { auth, firestore } from '../utils/Firebase';
+// import Popup from '../model/Popup';
+// import { auth, firestore } from '../utils/Firebase';
+import { auth } from '../utils/Firebase';
 import { UserContext } from '../providers/UserProvider';
 import { ReactComponent as BalloonSVG } from '../images/hot-air-balloon.svg';
 
 import './MainPage.css';
 
-const MainPage = () => {
+const MainPage = (props) => {
   const user = useContext(UserContext);
-  const [urlCode, setUrlCode] = useState('');
-  const [hoverAnimation, setHoverAnimation] = useState('');
-  // const [userEmail, setUserEmail] = useState('');
-  // const [user, setUser] = useState({});
-  // const [showPopup, setShowPopup] = useState(true);
 
   const [week, setWeek] = useState({
     sunday: false,
@@ -27,7 +25,6 @@ const MainPage = () => {
     friday: false,
     saturday: false,
   });
-
   const [rounds, setRounds] = useState({
     round1: {
       isActive: false,
@@ -45,6 +42,7 @@ const MainPage = () => {
       endTime: null,
     },
   });
+  const [hoverAnimation, setHoverAnimation] = useState('');
 
   const updateRound = (round, propToUpdate, state) => {
     const updatedRound = rounds[round];
@@ -61,90 +59,71 @@ const MainPage = () => {
     setWeek(updatedWeek);
   };
 
-  const setData = (code, userData) => {
-    // setShowPopup(false);
-    setUrlCode(code);
-    // setUserEmail(authUser.user.email);
-    // setUser(authUser);
-
-    setWeek({
-      sunday: userData.sunday,
-      monday: userData.monday,
-      tuesday: userData.tuesday,
-      wednesday: userData.wednesday,
-      thursday: userData.thursday,
-      friday: userData.friday,
-      saturday: userData.saturday,
-    });
-
-    setRounds({
-      round1: {
-        isActive: userData.isFirstRoundActive,
-        startTime: userData.firstRoundStart,
-        endTime: userData.firstRoundEnd,
-      },
-      round2: {
-        isActive: userData.isSecondRoundActive,
-        startTime: userData.secondRoundStart,
-        endTime: userData.secondRoundEnd,
-      },
-      round3: {
-        isActive: userData.isThirdRoundActive,
-        startTime: userData.thirdRoundStart,
-        endTime: userData.thirdRoundEnd,
-      },
-    });
-  };
-
   const logout = () => {
     auth
       .signOut()
       .then(() => {
         console.log('Sign-out successfully');
-        // setUserEmail('');
-        setUrlCode('');
-        setWeek({
-          sunday: false,
-          monday: false,
-          tuesday: false,
-          wednesday: false,
-          thursday: false,
-          friday: false,
-          saturday: false,
-        });
-        setRounds({
-          round1: {
-            isActive: false,
-            startTime: null,
-            endTime: null,
-          },
-          round2: {
-            isActive: false,
-            startTime: null,
-            endTime: null,
-          },
-          round3: {
-            isActive: false,
-            startTime: null,
-            endTime: null,
-          },
-        });
-        // setShowPopup(true);
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
+  useEffect(() => {
+    const { urlCode } = user;
+    axios
+      .get(`${urlCode}/get_week`, {
+        timeout: 10 * 1000,
+      })
+      .then((response) => {
+        console.log('login successfully');
+        const { data } = response;
+        setWeek({
+          sunday: data.sunday,
+          monday: data.monday,
+          tuesday: data.tuesday,
+          wednesday: data.wednesday,
+          thursday: data.thursday,
+          friday: data.friday,
+          saturday: data.saturday,
+        });
+        setRounds({
+          round1: {
+            isActive: data.isFirstRoundActive,
+            startTime: data.firstRoundStart,
+            endTime: data.firstRoundEnd,
+          },
+          round2: {
+            isActive: data.isSecondRoundActive,
+            startTime: data.secondRoundStart,
+            endTime: data.secondRoundEnd,
+          },
+          round3: {
+            isActive: data.isThirdRoundActive,
+            startTime: data.thirdRoundStart,
+            endTime: data.thirdRoundEnd,
+          },
+        });
+      })
+      .catch((error) => {
+        // this.errorHandler(
+        //   "Connection error: please check raspberry's internet connection",
+        // );
+        // logout();
+        console.log(error);
+      });
+  }, []);
+
   return (
     <>
-      <Popup
+      {/* <Popup
         auth={auth}
         firestore={firestore}
         setData={setData}
         key={`popup-${user}`}
         user={user}
-      />
+      /> */}
       <div className="main-container">
         <div className="title-wrapper">
           <h1>Home Irrigation System</h1>
@@ -154,7 +133,7 @@ const MainPage = () => {
           updateRound={updateRound}
           week={week}
           updateDay={updateDay}
-          urlCode={urlCode}
+          urlCode={user.urlCode}
           sessionExpired={logout}
         />
       </div>
