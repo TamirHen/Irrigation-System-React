@@ -1,22 +1,21 @@
-import React, { useContext } from 'react';
+import React, { Suspense, useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
 import MainPage from './pages/MainPage';
 
 import { UserContext } from './providers/UserProvider';
-
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 
+// const MainPage = lazy(() => import('./pages/MainPage'));
+
 function Application() {
   const user = useContext(UserContext);
-  // const [data, setData] = useState();
-
-  // const setUserData = (userData) => {
-  //   setData(userData);
-  // };
 
   return user ? (
-    <MainPage key="main-page" />
+    <Suspense fallback={<div>loading...</div>}>
+      <MainPage key="main-page" />
+    </Suspense>
   ) : (
     <>
       <Router>

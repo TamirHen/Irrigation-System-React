@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -15,7 +16,7 @@ import Container from '@material-ui/core/Container';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../providers/UserProvider';
 
-import { generateUserDocument, auth } from '../utils/Firebase';
+import { generateUserDocument, auth, persistence } from '../utils/Firebase';
 
 function Copyright() {
   return (
@@ -71,14 +72,26 @@ export default function SignUp() {
   const signUp = (event) => {
     event.preventDefault();
     setErrorMessage('');
-    auth.createUserWithEmailAndPassword(email, password).then(
-      (cred) => {
-        generateUserDocument(cred.user, { firstName, lastName, urlCode });
-      },
-      (error) => {
-        errorHandler(error.message);
-      },
-    );
+    auth
+      .setPersistence(persistence.SESSION)
+      .then(() =>
+        auth.createUserWithEmailAndPassword(email, password).then(
+          (cred) => {
+            generateUserDocument(cred.user, {
+              firstName,
+              lastName,
+              urlCode,
+              email,
+            });
+          },
+          (error) => {
+            errorHandler(error.message);
+          },
+        ),
+      )
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (

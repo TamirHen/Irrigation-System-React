@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-console */
 /* eslint-disable consistent-return */
 /* eslint-disable no-use-before-define */
@@ -19,7 +20,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export const auth = firebase.auth();
-
+export const persistence = firebase.auth.Auth.Persistence;
 export const firestore = firebase.firestore();
 
 export const generateUserDocument = async (user, additionalData) => {
@@ -29,6 +30,9 @@ export const generateUserDocument = async (user, additionalData) => {
   const userRef = firestore.collection('users').doc(email);
   const userDoc = await userRef.get();
   if (!userDoc.exists) {
+    if (additionalData?.urlCode.slice(-1) === '/') {
+      additionalData.urlCode = additionalData.urlCode.slice(0, -1);
+    }
     try {
       await userRef.set(
         {

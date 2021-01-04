@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -17,7 +18,7 @@ import Container from '@material-ui/core/Container';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-import { generateUserDocument, auth } from '../utils/Firebase';
+import { auth, persistence } from '../utils/Firebase';
 import './SignIn.css';
 
 function Copyright() {
@@ -60,23 +61,25 @@ export default function SignIn(props) {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   const errorHandler = (customError) => {
     setErrorMessage(customError || "Couldn't sign in, please try again");
-    // this.finishLoading();
   };
 
   const signIn = (event) => {
     event.preventDefault();
-    auth.signInWithEmailAndPassword(email, password).then(
-      async (cred) => {
-        // fetch the week data and save it with redux
-      },
-      (err) => {
-        errorHandler('Incorrect email or password');
-      },
-    );
+    auth
+      .setPersistence(rememberMe ? persistence.LOCAL : persistence.SESSION)
+      .then(() =>
+        auth.signInWithEmailAndPassword(email, password).catch((err) => {
+          errorHandler('Incorrect email or password');
+        }),
+      )
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
@@ -115,7 +118,16 @@ export default function SignIn(props) {
             onChange={(e) => setPassword(e.target.value)}
           />
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
+            control={
+              <Checkbox
+                value="remember"
+                checked={rememberMe}
+                color="primary"
+                onClick={(event) => {
+                  setRememberMe(event.target.checked);
+                }}
+              />
+            }
             label="Remember me"
           />
           <Button
