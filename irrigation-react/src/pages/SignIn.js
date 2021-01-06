@@ -70,6 +70,7 @@ export default function SignIn(props) {
 
   const signIn = (event) => {
     event.preventDefault();
+    setErrorMessage('');
     auth
       .setPersistence(rememberMe ? persistence.LOCAL : persistence.SESSION)
       .then(() =>
@@ -142,7 +143,7 @@ export default function SignIn(props) {
           <p className={classes.error}>{errorMessage}</p>
           <Grid container>
             <Grid item xs>
-              <Link to="#" variant="body2">
+              <Link to="/reset-password" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
