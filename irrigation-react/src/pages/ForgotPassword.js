@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
   message: {
     textAlign: 'center',
     marginTop: '5px',
-    marginBottom: '25px',
   },
 }));
 

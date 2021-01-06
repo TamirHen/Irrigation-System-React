@@ -14,7 +14,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../providers/UserProvider';
 
 import { generateUserDocument, auth, persistence } from '../utils/Firebase';
 
@@ -56,7 +55,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
-  const user = useContext(UserContext);
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -85,11 +83,13 @@ export default function SignUp() {
             });
           },
           (error) => {
-            errorHandler(error.message);
+            errorHandler();
+            console.error(error);
           },
         ),
       )
       .catch((error) => {
+        errorHandler();
         console.error(error);
       });
   };

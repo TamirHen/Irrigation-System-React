@@ -10,6 +10,7 @@ import ForgotPassword from './pages/ForgotPassword';
 
 function Application() {
   const user = useContext(UserContext);
+  console.log(user);
 
   return user ? (
     <MainPage key="main-page" />
