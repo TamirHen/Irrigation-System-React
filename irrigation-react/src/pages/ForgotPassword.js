@@ -1,17 +1,8 @@
-/* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -36,33 +27,32 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  error: {
-    color: 'red',
+  message: {
+    textAlign: 'center',
+    marginTop: '5px',
+    marginBottom: '25px',
   },
 }));
 
-export default function SignIn(props) {
+export default function ForgotPassword() {
   const classes = useStyles();
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-
-  const errorHandler = (customError) => {
-    setErrorMessage(customError || "Couldn't sign in, please try again");
+  const [message, setMessage] = useState('');
+  const successMessage = 'Check your email for a link to reset your password.';
+  const messageHandler = (msg) => {
+    setMessage(msg || successMessage);
   };
 
   const forgotPassword = (event) => {
     event.preventDefault();
+    setMessage('');
     auth
-      .sendPasswordResetEmail('tamirhen6@gmail.com')
+      .sendPasswordResetEmail(email)
       .then(() => {
-        setTimeout(() => {
-          // code here
-        }, 3000);
+        messageHandler();
       })
       .catch((error) => {
-        console.error('Error resetting password');
+        messageHandler(error.message);
       });
   };
 
@@ -95,7 +85,14 @@ export default function SignIn(props) {
           >
             Send
           </Button>
-          <p className={classes.error}>{errorMessage}</p>
+          <p
+            className={classes.message}
+            style={
+              message === successMessage ? { color: 'green' } : { color: 'red' }
+            }
+          >
+            {message}
+          </p>
           <Grid container>
             <Grid item>
               <Link to="/" variant="body2">
