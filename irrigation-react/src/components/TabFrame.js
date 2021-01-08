@@ -13,12 +13,13 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import { Timer, Today, LocalFlorist } from '@material-ui/icons';
+import { Timer, Today, Home as HomeIcon } from '@material-ui/icons';
 
 import Auto from '../Tabs/Auto';
+import Manual from '../Tabs/Manual';
+import Home from '../Tabs/Home';
 
 import './TabFrame.css';
-import Manual from '../Tabs/Manual';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -87,7 +88,7 @@ export default function FullWidthTabs(props) {
           aria-label="tabs"
           centered
         >
-          <Tab label="State" icon={<LocalFlorist />} {...a11yProps(0)} />
+          <Tab label="Home" icon={<HomeIcon />} {...a11yProps(0)} />
           <Tab label="Manual" icon={<Timer />} {...a11yProps(1)} />
           <Tab label="Auto" icon={<Today />} {...a11yProps(2)} />
         </Tabs>
@@ -98,7 +99,7 @@ export default function FullWidthTabs(props) {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          Test
+          <Home />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <Manual {...props} />
