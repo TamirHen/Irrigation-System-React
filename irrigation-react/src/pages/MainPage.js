@@ -120,7 +120,7 @@ const MainPage = (props) => {
         errorHandler(
           "Connection error: please check the raspberry's internet connection",
         );
-        console.log(error);
+        console.error(error);
       })
       .finally(() => {
         setLoading('determinate');

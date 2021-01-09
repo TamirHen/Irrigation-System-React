@@ -88,9 +88,9 @@ export default function FullWidthTabs(props) {
           aria-label="tabs"
           centered
         >
-          <Tab label="Home" icon={<HomeIcon />} {...a11yProps(0)} />
-          <Tab label="Manual" icon={<Timer />} {...a11yProps(1)} />
-          <Tab label="Auto" icon={<Today />} {...a11yProps(2)} />
+          <Tab label="Home" /* icon={<HomeIcon />} */ {...a11yProps(0)} />
+          <Tab label="Manual" /* icon={<Timer />} */ {...a11yProps(1)} />
+          <Tab label="Auto" /* icon={<Today />} */ {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
