@@ -14,7 +14,7 @@ import './Home.css';
 const Home = () => {
   const user = useContext(UserContext);
 
-  const [status, setStatus] = useState('START');
+  const [status, setStatus] = useState('OFF');
   const [loading, setLoading] = useState('determinate');
   const [isBreathing, setIsBreathing] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -36,17 +36,15 @@ const Home = () => {
       .then((response) => {
         const { data } = response;
         if (data) {
-          setStatus('STOP');
+          setStatus('ON');
           setIsBreathing(true);
         } else {
-          setStatus('START');
+          setStatus('OFF');
           setIsBreathing(false);
         }
       })
       .catch((error) => {
-        errorHandler(
-          "Connection error: please check the raspberry's internet connection",
-        );
+        errorHandler('Connection error');
         console.error(error);
       })
       .finally(() => {
@@ -66,15 +64,18 @@ const Home = () => {
         <div className="container right">
           <div className="container-header">Watering status</div>
           <div className="container-body">
+            <div className="current-status-wrapper">
+              <p className="current-status">Currently:{` ${status}`}</p>
+            </div>
             <WatermingButton
               isBreathing={isBreathing}
               textButton={
                 isSubmitDisabled ? (
-                  <CircularProgress className="loader" size="10" />
+                  <CircularProgress className="status-loader" size="10" />
                 ) : (
                   <RefreshIcon
                     fontSize="large"
-                    // color={status === 'START' ? 'secondary' : 'primary'}
+                    // color={status === 'OFF' ? 'secondary' : 'primary'}
                     style={{ color: '#cecbcb' }}
                   />
                 )
@@ -85,9 +86,7 @@ const Home = () => {
             {/* <div className="loader-wrapper" hidden={loading === 'determinate'}>
               <CircularProgress className="loader" />
             </div> */}
-            <div className="error-wrapper" hidden={errorMessage === ''}>
-              <p className="error-message">{errorMessage}</p>
-            </div>
+            <p className="status-error-message">{errorMessage}</p>
           </div>
         </div>
       </div>

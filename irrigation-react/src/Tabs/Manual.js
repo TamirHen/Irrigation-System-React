@@ -11,6 +11,7 @@ import { useTimer } from 'react-compound-timer';
 import formatTimeUnit from '../utils/FormatTimeUnit';
 import { UserContext } from '../providers/UserProvider';
 
+import WatermingButton from '../components/WateringButton';
 import { validateMintues } from '../utils/Validate';
 
 import './Manual.css';
@@ -65,7 +66,7 @@ const Manual = (props) => {
 
   const clickButton = (event) => {
     event.preventDefault();
-    setErrorMessage('valid'); // initial the message.
+    setErrorMessage('valid'); // initial message.
     setLoading('indeterminate');
     setIsSubmitDisabled(true);
     setIsFieldDisabled(true);
@@ -140,7 +141,8 @@ const Manual = (props) => {
           disabled={isFieldDisabled}
         />
       </div>
-      <div className="breathing-button-wrapper">
+
+      {/* <div className="breathing-button-wrapper">
         <Button
           id="breathing-button"
           className={`manual-button ${isBreathing ? 'breathing' : ''}`}
@@ -151,7 +153,7 @@ const Manual = (props) => {
         >
           {textButton}
         </Button>
-      </div>
+      </div> */}
       <div className="timer-wrapper" hidden={textButton === 'START'}>
         {formatTimeUnit(value.h)}:{formatTimeUnit(value.m)}:
         {formatTimeUnit(value.s)}
