@@ -2,15 +2,14 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-expressions */
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useTimer } from 'react-compound-timer';
 import formatTimeUnit from '../utils/FormatTimeUnit';
-import { UserContext } from '../providers/UserProvider';
 
+import { UserContext } from '../providers/UserProvider';
 import WatermingButton from '../components/WateringButton';
 import { validateMintues } from '../utils/Validate';
 
@@ -52,7 +51,7 @@ const Manual = (props) => {
     ],
   });
 
-  const { urlCode, sessionExpired } = props;
+  const { urlCode, sessionExpired, status } = props;
 
   const startTimer = () => {
     setTime(minutes * 60 * 1000);
@@ -62,6 +61,27 @@ const Manual = (props) => {
 
   const stopTimer = () => {
     stop();
+  };
+
+  const stopIrrigating = () => {
+    axios
+      .post(`${urlCode}/stop_irrigate`, {
+        timeout: 10 * 1000,
+      })
+      .then(() => {
+        setTextButton('START');
+        console.log('irrigation stopped');
+        stopTimer();
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("IRRIGATION DIDN'T STOPPTED!!!");
+        setErrorMessage(
+          "IRRIGATION DIDN'T STOPPTED!\nPlease check the internet connection your raspberry is using",
+        );
+        setLoading('determinate');
+        setIsSubmitDisabled(false);
+      });
   };
 
   const clickButton = (event) => {
@@ -101,32 +121,23 @@ const Manual = (props) => {
       setIsFieldDisabled(false);
       setErrorMessage(message);
     } else if (user) {
-      axios
-        .post(`${urlCode}/stop_irrigate`, {
-          timeout: 10 * 1000,
-        })
-        .then(() => {
-          setTextButton('START');
-          console.log('irrigation stopped');
-          stopTimer();
-        })
-        .catch((error) => {
-          console.log(error);
-          console.log("IRRIGATION DIDN'T STOPPTED!!!");
-          setErrorMessage(
-            "IRRIGATION DIDN'T STOPPTED!\nPlease check the internet connection your raspberry is using",
-          );
-          setLoading('determinate');
-          setIsSubmitDisabled(false);
-        });
+      stopIrrigating();
     } else {
       console.log('User has logged out - session expired!');
       sessionExpired();
     }
   };
 
+  useEffect(() => {
+    // only if status changes to 'OFF' watering animations needs to stop
+    if (status === 'OFF') {
+      setTextButton('START');
+      stopTimer();
+    }
+  }, [status]);
+
   return (
-    <form className="manual-irrigation-form" onSubmit={clickButton}>
+    <form className="manual-irrigation-form">
       <div className="minutes-input-wrapper">
         <TextField
           type="number"
@@ -142,6 +153,14 @@ const Manual = (props) => {
         />
       </div>
 
+      <WatermingButton
+        isBreathing={isBreathing}
+        textButton={textButton}
+        isSubmitDisabled={isSubmitDisabled}
+        onClick={clickButton}
+        height="200px"
+        width="200px"
+      />
       {/* <div className="breathing-button-wrapper">
         <Button
           id="breathing-button"
@@ -161,8 +180,8 @@ const Manual = (props) => {
       <div className="error-message-wrapper" hidden={errorMessage === 'valid'}>
         <p className="error-message">{errorMessage}</p>
       </div>
-      <div className="loader-wrapper" hidden={loading === 'determinate'}>
-        <CircularProgress className="loader" variant={loading} />
+      <div className="manual-loader-wrapper" hidden={loading === 'determinate'}>
+        <CircularProgress className="manual-loader" variant={loading} />
       </div>
     </form>
   );

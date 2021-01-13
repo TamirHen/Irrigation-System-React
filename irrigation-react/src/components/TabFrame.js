@@ -4,7 +4,7 @@
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -14,6 +14,9 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { Timer, Today, Home as HomeIcon } from '@material-ui/icons';
+import axios from 'axios';
+
+import { UserContext } from '../providers/UserProvider';
 
 import Auto from '../Tabs/Auto';
 import Manual from '../Tabs/Manual';
@@ -32,11 +35,9 @@ function TabPanel(props) {
       aria-labelledby={`full-width-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box p={3}>
-          <Typography component="span">{children}</Typography>
-        </Box>
-      )}
+      <Box p={3}>
+        <Typography component="span">{children}</Typography>
+      </Box>
     </div>
   );
 }
@@ -68,7 +69,65 @@ export default function FullWidthTabs(props) {
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
 
+  const user = useContext(UserContext);
+  const [status, setStatus] = useState('OFF');
+  const [statusError, setStatusError] = useState('');
+  const [homeLoader, setHomeLoader] = useState(false);
+
+  const homeErrorHandler = (customError) => {
+    setStatusError(customError || 'Error!');
+  };
+
+  const getStatus = () => {
+    const { urlCode } = user;
+    setStatusError('');
+    setHomeLoader(true);
+    axios
+      .get(`${urlCode}/get_state`, {
+        timeout: 10 * 1000,
+      })
+      .then((response) => {
+        const { data } = response;
+        if (data) {
+          setStatus('ON');
+          // setIsBreathing(true);
+        } else {
+          setStatus('OFF');
+          // setIsBreathing(false);
+        }
+      })
+      .catch((error) => {
+        homeErrorHandler();
+        console.error(error);
+      })
+      .finally(() => {
+        setHomeLoader(false);
+      });
+  };
+
+  const turnOffWatering = () => {
+    const { urlCode } = user;
+    setStatusError('');
+    setHomeLoader(true);
+    axios
+      .post(`${urlCode}/stop_irrigate`, {
+        timeout: 10 * 1000,
+      })
+      .then(() => {
+        setStatus('OFF');
+        console.log('irrigation stopped');
+      })
+      .catch((error) => {
+        homeErrorHandler();
+        console.error(error);
+      })
+      .finally(() => {
+        setHomeLoader(false);
+      });
+  };
+
   const handleChange = (event, newValue) => {
+    event.preventDefault();
     setValue(newValue);
   };
 
@@ -88,7 +147,11 @@ export default function FullWidthTabs(props) {
           aria-label="tabs"
           centered
         >
-          <Tab label="Home" /* icon={<HomeIcon />} */ {...a11yProps(0)} />
+          <Tab
+            label="Home"
+            onClick={getStatus}
+            /* icon={<HomeIcon />} */ {...a11yProps(0)}
+          />
           <Tab label="Manual" /* icon={<Timer />} */ {...a11yProps(1)} />
           <Tab label="Auto" /* icon={<Today />} */ {...a11yProps(2)} />
         </Tabs>
@@ -99,10 +162,16 @@ export default function FullWidthTabs(props) {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <Home />
+          <Home
+            status={status}
+            errorMessage={statusError}
+            loader={homeLoader}
+            getStatus={getStatus}
+            turnOffWatering={turnOffWatering}
+          />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <Manual {...props} />
+          <Manual status={status} {...props} />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           <Auto {...props} />

@@ -76,16 +76,17 @@
 
 .timer-wrapper {
   margin-top: 5px;
+  margin-bottom: 15px;
   font-size: 28px;
   /* font-family: 'Orbitron', sans-serif; */
   font-family: 'Roboto Mono', monospace;
 }
 /* 
-.loader-wrapper {
+.manual-loader-wrapper {
   margin-top: 10px;
 } */
 
-.loader {
+.manual-loader {
   height: 50px !important;
   width: 50px !important;
 }

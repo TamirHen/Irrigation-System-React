@@ -155,6 +155,7 @@ const MainPage = (props) => {
           onClick={() => {
             fetchDataFromPi();
           }}
+          size="small"
         >
           Try again
         </Button>
