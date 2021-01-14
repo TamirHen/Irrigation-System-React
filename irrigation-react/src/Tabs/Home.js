@@ -19,6 +19,9 @@ import { UserContext } from '../providers/UserProvider';
 import './Home.css';
 
 const useStyles = makeStyles((theme) => ({
+  hidden: {
+    display: 'none',
+  },
   listItem: {
     backgroundColor: 'rgba(232, 241, 247, 0.795)',
     cursor: 'unset',
@@ -28,41 +31,31 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'rgba(255, 172, 151, 0.795)',
     padding: '0px',
     textAlign: 'center',
+    width: '0px',
+    visibility: 'hidden',
+    transition: `all 1s`,
+  },
+  stopButtonAppear: {
+    width: '64px',
+    visibility: 'visible',
     marginLeft: '3px',
   },
-  buttonAppear: {
-    animation: `$appear 1000ms`,
-    width: '64px',
-  },
-  buttonDisappear: {
-    animation: `$disappear 1000ms`,
-    width: '0px',
-  },
-  '@keyframes appear': {
-    '0%': {
-      width: '0px',
-    },
-    '80%': {
-      width: '100px',
-    },
-    '100%': {
-      width: '64px',
-    },
-  },
-  '@keyframes disappear': {
-    '0%': {
-      width: '64px',
-    },
-    '100%': {
-      width: '0px',
-    },
+  listItemStop: {
+    width: '30%',
   },
 }));
 
 const Home = (props) => {
   const user = useContext(UserContext);
   const classes = useStyles();
-  const { status, errorMessage, loader, getStatus, turnOffWatering } = props;
+  const {
+    status,
+    errorMessage,
+    loader,
+    getStatus,
+    turnOffWatering,
+    setStatus,
+  } = props;
 
   const getHelloMessage = () => {
     const today = new Date();
@@ -73,7 +66,10 @@ const Home = (props) => {
     if (curHr < 18) {
       return 'Good afternoon';
     }
-    return 'Good evening';
+    if (curHr < 21) {
+      return 'Good evening';
+    }
+    return 'Good night';
   };
 
   return (
@@ -87,7 +83,7 @@ const Home = (props) => {
             <div className="left-side">
               <List component="nav" aria-label="main mailbox folders">
                 <div className="status-list-wrapper">
-                  <ListItem className="list-item" button>
+                  <ListItem className={classes.listItem} button>
                     <ListItemText primary={`Status: ${status}`} />
                     <p className="status-error-message">{errorMessage}</p>
                     <IconButton size="small" onClick={getStatus}>
@@ -104,57 +100,35 @@ const Home = (props) => {
                     className={clsx(
                       classes.listItem,
                       classes.stopButton,
-                      {
-                        [classes.buttonDisappear]: status === 'OFF',
-                      },
-                      {
-                        [classes.buttonAppear]: status === 'ON',
-                      },
+                      // status === 'OFF' && classes.buttonDisappear,
+                      status === 'ON' && classes.stopButtonAppear,
                     )}
                   >
                     <Button onClick={turnOffWatering}>
-                      <ListItemText primary="STOP" />
+                      <ListItemText
+                        className={classes.listItemStop}
+                        primary="STOP"
+                        color="#368be4"
+                      />
                     </Button>
                   </ListItem>
                 </div>
                 <Divider className="divider" />
-                <ListItem className="list-item" button>
+                <ListItem className={classes.listItem} button>
                   <ListItemText primary="Next Irrigation:" />
                 </ListItem>
               </List>
-              {/* <div className="status-text-wrapper">
-              <p className="status-text">{`Status: ${status}`}</p>
-              <IconButton size="small">
-                <RefreshIcon />
-              </IconButton>
-            </div> */}
-
-              {/* <WatermingButton
-              isBreathing={isBreathing}
-              textButton={
-                isSubmitDisabled ? (
-                  <CircularProgress className="status-loader" size="10" />
-                ) : (
-                  <RefreshIcon fontSize="large" style={{ color: '#cecbcb' }} />
-                )
-              }
-              isSubmitDisabled={isSubmitDisabled}
-              onClick={getStatus}
-            /> */}
-              {/* <p className="status-error-message">{errorMessage}</p> */}
+              <Button
+                onClick={() => {
+                  setStatus(status === 'OFF' ? 'ON' : 'OFF');
+                }}
+              >
+                Click
+              </Button>
             </div>
+            <div className="right-side">test</div>
           </div>
         </div>
-        {/* <hr orientation="vertical" />
-        <div className="container right">
-          <div className="container-header">Watering status</div>
-          <div className="container-body">
-            <div className="current-status-wrapper">
-              <p className="current-status">Currently:{` ${status}`}</p>
-            </div>
-            <p className="status-error-message">{errorMessage}</p>
-          </div>
-        </div> */}
       </div>
     </>
   );

@@ -13,7 +13,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import { Timer, Today, Home as HomeIcon } from '@material-ui/icons';
+// import { Timer, Today, Home as HomeIcon } from '@material-ui/icons';
 import axios from 'axios';
 
 import { UserContext } from '../providers/UserProvider';
@@ -23,6 +23,7 @@ import Manual from '../Tabs/Manual';
 import Home from '../Tabs/Home';
 
 import './TabFrame.css';
+import '../Tabs/Home.css';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -150,7 +151,8 @@ export default function FullWidthTabs(props) {
           <Tab
             label="Home"
             onClick={getStatus}
-            /* icon={<HomeIcon />} */ {...a11yProps(0)}
+            /* icon={<HomeIcon />} */
+            {...a11yProps(0)}
           />
           <Tab label="Manual" /* icon={<Timer />} */ {...a11yProps(1)} />
           <Tab label="Auto" /* icon={<Today />} */ {...a11yProps(2)} />
@@ -168,6 +170,7 @@ export default function FullWidthTabs(props) {
             loader={homeLoader}
             getStatus={getStatus}
             turnOffWatering={turnOffWatering}
+            setStatus={setStatus}
           />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
