@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-plusplus */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable no-console */
@@ -6,6 +8,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import moment from 'moment';
 import FullWidthTabs from '../components/TabFrame';
 // import Popup from '../model/Popup';
 // import { auth, firestore } from '../utils/Firebase';
@@ -47,9 +50,31 @@ const MainPage = (props) => {
   const [hoverAnimation, setHoverAnimation] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState('determinate');
+  const [nextCycleTime, setNextCycleTime] = useState('');
 
   const errorHandler = (customError) => {
     setErrorMessage(customError || 'There was a problem loading the data');
+  };
+
+  const updateNextCycleTime = () => {
+    const nextSevenDays = [];
+    for (let i = 0; i < 7; i++) {
+      nextSevenDays[i] = moment().add(i, 'days').format('dddd');
+
+      if (week[nextSevenDays[i].toLowerCase()] === true) {
+        for (const [, round] of Object.entries(rounds)) {
+          console.log(2);
+          //   if (
+          //     round.isActive &&
+          //     moment(round.startTime, 'HH:mm:ss').isBefore(
+          //       moment(new Date(), 'HH:mm:ss'),
+          //     )
+          //   ) {
+          //     console.log(1);
+          //   }
+        }
+      }
+    }
   };
 
   const updateRound = (round, propToUpdate, state) => {
@@ -115,6 +140,7 @@ const MainPage = (props) => {
             endTime: data.thirdRoundEnd,
           },
         });
+        updateNextCycleTime();
       })
       .catch((error) => {
         errorHandler(
@@ -129,6 +155,7 @@ const MainPage = (props) => {
 
   useEffect(() => {
     fetchDataFromPi();
+    updateNextCycleTime();
   }, []);
 
   return (

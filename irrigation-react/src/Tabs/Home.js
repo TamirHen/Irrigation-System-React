@@ -97,7 +97,6 @@ const Home = (props) => {
                     </IconButton>
                   </ListItem>
                   <ListItem
-                    disableTypography
                     className={clsx(
                       classes.listItem,
                       classes.stopButton,
