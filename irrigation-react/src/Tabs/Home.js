@@ -25,7 +25,9 @@ const useStyles = makeStyles((theme) => ({
   listItem: {
     backgroundColor: 'rgba(232, 241, 247, 0.795)',
     cursor: 'unset',
-    borderRadius: '5px',
+    borderRadius: '4px',
+    color: '#659adc',
+    fontWeight: 'bold',
   },
   stopButton: {
     backgroundColor: 'rgba(255, 172, 151, 0.795)',
@@ -38,24 +40,19 @@ const useStyles = makeStyles((theme) => ({
   stopButtonAppear: {
     width: '64px',
     visibility: 'visible',
-    marginLeft: '3px',
+    marginLeft: '8px',
   },
   listItemStop: {
     width: '30%',
+    color: '#cf5858',
+    fontWeight: 'bold',
   },
 }));
 
 const Home = (props) => {
   const user = useContext(UserContext);
   const classes = useStyles();
-  const {
-    status,
-    errorMessage,
-    loader,
-    getStatus,
-    turnOffWatering,
-    setStatus,
-  } = props;
+  const { status, errorMessage, loader, getStatus, turnOffWatering } = props;
 
   const getHelloMessage = () => {
     const today = new Date();
@@ -75,16 +72,19 @@ const Home = (props) => {
   return (
     <>
       <div className="main-body">
+        <div className="container-header">{`${getHelloMessage()} ${
+          user.firstName
+        }`}</div>
         <div className="container">
-          <div className="container-header">{`${getHelloMessage()} ${
-            user.firstName
-          }`}</div>
           <div className="container-body">
             <div className="left-side">
               <List component="nav" aria-label="main mailbox folders">
                 <div className="status-list-wrapper">
                   <ListItem className={classes.listItem} button>
-                    <ListItemText primary={`Status: ${status}`} />
+                    <ListItemText
+                      disableTypography
+                      primary={`Status: ${status}`}
+                    />
                     <p className="status-error-message">{errorMessage}</p>
                     <IconButton size="small" onClick={getStatus}>
                       {loader ? (
@@ -97,34 +97,27 @@ const Home = (props) => {
                     </IconButton>
                   </ListItem>
                   <ListItem
+                    disableTypography
                     className={clsx(
                       classes.listItem,
                       classes.stopButton,
-                      // status === 'OFF' && classes.buttonDisappear,
                       status === 'ON' && classes.stopButtonAppear,
                     )}
                   >
                     <Button onClick={turnOffWatering}>
                       <ListItemText
+                        disableTypography
                         className={classes.listItemStop}
                         primary="STOP"
-                        color="#368be4"
                       />
                     </Button>
                   </ListItem>
                 </div>
                 <Divider className="divider" />
                 <ListItem className={classes.listItem} button>
-                  <ListItemText primary="Next Irrigation:" />
+                  <ListItemText disableTypography primary="Next Irrigation:" />
                 </ListItem>
               </List>
-              <Button
-                onClick={() => {
-                  setStatus(status === 'OFF' ? 'ON' : 'OFF');
-                }}
-              >
-                Click
-              </Button>
             </div>
             <div className="right-side">test</div>
           </div>

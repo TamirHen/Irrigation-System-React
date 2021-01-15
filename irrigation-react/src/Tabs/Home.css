@@ -1,17 +1,22 @@
-.main-body {
+.container-header {
+  font-weight: bold;
+  text-align: left;
+  font-size: 18px;
+  margin: 10px 0px 20px 0px;
+  padding-left: 20px;
+}
+
+.container {
+  height: 300px;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
 
-.container {
-  height: 300px;
-  width: 80%;
-  text-align: left;
-}
-
 .container-body {
   display: flex;
+  width: 80%;
 }
 
 .left-side {
@@ -23,6 +28,9 @@
   width: 40%;
   background-color: white;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .status-list-wrapper {
@@ -32,21 +40,7 @@
 
 .divider {
   background-color: transparent !important;
-  height: 3px !important;
-}
-
-.container-header {
-  font-weight: bold;
-  text-align: left;
-}
-
-.MuiListItemText-primary {
-  color: #368be4;
-  font-weight: bold;
-}
-
-..MuiTypography-root {
-  font-weight: bold !important;
+  height: 8px !important;
 }
 
 #breathing-status {
