@@ -8,7 +8,6 @@ import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import moment from 'moment';
 import FullWidthTabs from '../components/TabFrame';
 // import Popup from '../model/Popup';
 // import { auth, firestore } from '../utils/Firebase';
@@ -16,6 +15,7 @@ import { auth } from '../utils/Firebase';
 import { UserContext } from '../providers/UserProvider';
 import { ReactComponent as BalloonSVG } from '../images/hot-air-balloon.svg';
 
+import nextIrrigation from '../utils/NextIrrigation';
 import './MainPage.css';
 
 const MainPage = (props) => {
@@ -56,25 +56,8 @@ const MainPage = (props) => {
     setErrorMessage(customError || 'There was a problem loading the data');
   };
 
-  const updateNextCycleTime = () => {
-    const nextSevenDays = [];
-    for (let i = 0; i < 7; i++) {
-      nextSevenDays[i] = moment().add(i, 'days').format('dddd');
-
-      if (week[nextSevenDays[i].toLowerCase()] === true) {
-        for (const [, round] of Object.entries(rounds)) {
-          console.log(2);
-          //   if (
-          //     round.isActive &&
-          //     moment(round.startTime, 'HH:mm:ss').isBefore(
-          //       moment(new Date(), 'HH:mm:ss'),
-          //     )
-          //   ) {
-          //     console.log(1);
-          //   }
-        }
-      }
-    }
+  const updateNextCycleTime = (weekData, roundsData) => {
+    setNextCycleTime(nextIrrigation(weekData, roundsData));
   };
 
   const updateRound = (round, propToUpdate, state) => {
@@ -114,7 +97,7 @@ const MainPage = (props) => {
       .then((response) => {
         console.log('login successfully');
         const { data } = response;
-        setWeek({
+        const weekData = {
           sunday: data.sunday,
           monday: data.monday,
           tuesday: data.tuesday,
@@ -122,8 +105,9 @@ const MainPage = (props) => {
           thursday: data.thursday,
           friday: data.friday,
           saturday: data.saturday,
-        });
-        setRounds({
+        };
+        setWeek(weekData);
+        const roundsData = {
           round1: {
             isActive: data.isFirstRoundActive,
             startTime: data.firstRoundStart,
@@ -139,8 +123,9 @@ const MainPage = (props) => {
             startTime: data.thirdRoundStart,
             endTime: data.thirdRoundEnd,
           },
-        });
-        updateNextCycleTime();
+        };
+        setRounds(roundsData);
+        updateNextCycleTime(weekData, roundsData);
       })
       .catch((error) => {
         errorHandler(
@@ -155,7 +140,6 @@ const MainPage = (props) => {
 
   useEffect(() => {
     fetchDataFromPi();
-    updateNextCycleTime();
   }, []);
 
   return (
@@ -171,6 +155,7 @@ const MainPage = (props) => {
           updateDay={updateDay}
           urlCode={user.urlCode}
           sessionExpired={logout}
+          nextCycleTime={nextCycleTime}
         />
       </div>
       <div className="error-wrapper" hidden={errorMessage === ''}>

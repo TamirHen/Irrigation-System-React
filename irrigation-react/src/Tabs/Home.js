@@ -52,7 +52,14 @@ const useStyles = makeStyles((theme) => ({
 const Home = (props) => {
   const user = useContext(UserContext);
   const classes = useStyles();
-  const { status, errorMessage, loader, getStatus, turnOffWatering } = props;
+  const {
+    status,
+    errorMessage,
+    loader,
+    getStatus,
+    turnOffWatering,
+    nextCycleTime,
+  } = props;
 
   const getHelloMessage = () => {
     const today = new Date();
@@ -114,7 +121,10 @@ const Home = (props) => {
                 </div>
                 <Divider className="divider" />
                 <ListItem className={classes.listItem} button>
-                  <ListItemText disableTypography primary="Next Irrigation:" />
+                  <ListItemText
+                    disableTypography
+                    primary={`Next Irrigation: ${nextCycleTime || 'Not set'}`}
+                  />
                 </ListItem>
               </List>
             </div>

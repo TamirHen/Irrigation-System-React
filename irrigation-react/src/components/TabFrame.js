@@ -170,6 +170,7 @@ export default function FullWidthTabs(props) {
             loader={homeLoader}
             getStatus={getStatus}
             turnOffWatering={turnOffWatering}
+            nextCycleTime={props.nextCycleTime}
           />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
