@@ -156,6 +156,7 @@ const MainPage = (props) => {
           urlCode={user.urlCode}
           sessionExpired={logout}
           nextCycleTime={nextCycleTime}
+          updateNextCycleTime={updateNextCycleTime}
         />
       </div>
       <div className="error-wrapper" hidden={errorMessage === ''}>

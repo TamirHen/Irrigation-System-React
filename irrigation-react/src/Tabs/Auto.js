@@ -29,6 +29,7 @@ function Auto(props) {
     updateDay,
     urlCode,
     sessionExpired,
+    updateNextCycleTime,
   } = props;
 
   const setMessage = (message) => {
@@ -49,7 +50,7 @@ function Auto(props) {
 
     const data = {
       ...week,
-      firstRoundStart: rounds.round1.startTime
+      firstRoundStart: rounds.round1.startTime // make sure data always send with 'hh:mm:ss' format (or null):
         ? `${rounds.round1.startTime.split(':')[0]}:${
             rounds.round1.startTime.split(':')[1]
           }:00`
@@ -92,10 +93,38 @@ function Auto(props) {
           .post(`${urlCode}/update_week`, data, {
             timeout: 10 * 1000,
           })
-          .then(() => {
+          .then((response) => {
             console.log('data updated successfully');
             setMessage('Done');
             setIsSubmitDisabled(false);
+            const res = response.data;
+            const weekData = {
+              sunday: res.sunday,
+              monday: res.monday,
+              tuesday: res.tuesday,
+              wednesday: res.wednesday,
+              thursday: res.thursday,
+              friday: res.friday,
+              saturday: res.saturday,
+            };
+            const roundsData = {
+              round1: {
+                isActive: res.isFirstRoundActive,
+                startTime: res.firstRoundStart,
+                endTime: res.firstRoundEnd,
+              },
+              round2: {
+                isActive: res.isSecondRoundActive,
+                startTime: res.secondRoundStart,
+                endTime: res.secondRoundEnd,
+              },
+              round3: {
+                isActive: res.isThirdRoundActive,
+                startTime: res.thirdRoundStart,
+                endTime: res.thirdRoundEnd,
+              },
+            };
+            updateNextCycleTime(weekData, roundsData);
           })
           .catch((error) => {
             console.log(error);
@@ -124,6 +153,7 @@ function Auto(props) {
               startTime={rounds[keyName].startTime}
               endTime={rounds[keyName].endTime}
               updateRound={updateRound}
+              setIsSubmitDisabled={setIsSubmitDisabled}
             />
           ))}
         </div>

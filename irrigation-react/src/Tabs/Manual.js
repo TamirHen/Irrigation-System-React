@@ -51,7 +51,7 @@ const Manual = (props) => {
     ],
   });
 
-  const { urlCode, sessionExpired, status } = props;
+  const { urlCode, sessionExpired, status, setStatus } = props;
 
   const startTimer = () => {
     setTime(minutes * 60 * 1000);
@@ -72,6 +72,7 @@ const Manual = (props) => {
         setTextButton('START');
         console.log('irrigation stopped');
         stopTimer();
+        setStatus('OFF');
       })
       .catch((error) => {
         console.log(error);
@@ -101,6 +102,7 @@ const Manual = (props) => {
             setTextButton('STOP');
             console.log('irrigation started');
             startTimer();
+            setStatus('ON');
           })
           .catch((error) => {
             console.log(error);

@@ -1,7 +1,13 @@
+/* eslint-disable no-unused-expressions */
 import React from 'react';
 
 import Switch from '@material-ui/core/Switch';
-import TextField from '@material-ui/core/TextField';
+import {
+  KeyboardTimePicker,
+  MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
+import moment from 'moment';
 
 import './Cycle.css';
 
@@ -9,57 +15,53 @@ const Cycle = (props) => {
   const { cycleNumber, isActive, updateRound, startTime, endTime } = props;
 
   return (
-    <div className="cycle-container">
-      <div className="cycle-header">
-        <h2 className="round-text">Round {cycleNumber}</h2>
-        <Switch
-          className="cycle-switch"
-          color="primary"
-          checked={isActive}
-          onChange={() => {
-            updateRound(`round${cycleNumber}`, 'isActive', !isActive);
-          }}
-        />
+    <MuiPickersUtilsProvider utils={MomentUtils}>
+      <div className="cycle-container">
+        <div className="cycle-header">
+          <h2 className="round-text">Round {cycleNumber}</h2>
+          <Switch
+            className="cycle-switch"
+            color="primary"
+            checked={isActive}
+            onChange={() => {
+              updateRound(`round${cycleNumber}`, 'isActive', !isActive);
+            }}
+          />
+        </div>
+        <div className="time-pickers-wrapper">
+          <KeyboardTimePicker
+            id={`time-picker-start-cycle-${cycleNumber || ''}`}
+            className="time-picker"
+            label="Start Time"
+            ampm={false}
+            value={moment(startTime || '00:00:00', 'HH:mm') || ''}
+            invalidDateMessage
+            onChange={(time) => {
+              updateRound(
+                `round${cycleNumber}`,
+                'startTime',
+                time?.format('HH:mm') || null,
+              );
+            }}
+          />
+          <KeyboardTimePicker
+            id={`time-picker-end-cycle-${cycleNumber || ''}`}
+            className="time-picker"
+            label="End Time"
+            ampm={false}
+            value={moment(endTime || '00:00:00', 'HH:mm') || ''}
+            invalidDateMessage
+            onChange={(time) => {
+              updateRound(
+                `round${cycleNumber}`,
+                'endTime',
+                time?.format('HH:mm') || null,
+              );
+            }}
+          />
+        </div>
       </div>
-      <div className="time-pickers-wrapper">
-        {/* <p className="date-picker-label">Start Time</p> */}
-        <TextField
-          id={`time-picker-start-cycle-${cycleNumber || ''}`}
-          className="time-picker"
-          label="Start Time"
-          type="time"
-          value={startTime || ''}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          onChange={(event) => {
-            updateRound(
-              `round${cycleNumber}`,
-              'startTime',
-              event.target.value === '' ? null : `${event.target.value}`,
-            );
-          }}
-        />
-        {/* <p className="date-picker-label">End Time</p> */}
-        <TextField
-          id={`time-picker-end-cycle-${cycleNumber || ''}`}
-          className="time-picker"
-          label="End Time"
-          type="time"
-          value={endTime || ''}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          onChange={(event) => {
-            updateRound(
-              `round${cycleNumber}`,
-              'endTime',
-              event.target.value === '' ? null : `${event.target.value}`,
-            );
-          }}
-        />
-      </div>
-    </div>
+    </MuiPickersUtilsProvider>
   );
 };
 
