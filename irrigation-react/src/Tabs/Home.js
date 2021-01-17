@@ -1,6 +1,4 @@
-/* eslint-disable no-lone-blocks */
-/* eslint-disable no-unused-vars */
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import RefreshIcon from '@material-ui/icons/Refresh';
@@ -15,10 +13,9 @@ import clsx from 'clsx';
 
 import { UserContext } from '../providers/UserProvider';
 
-// import WatermingButton from '../components/WateringButton';
 import './Home.css';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   hidden: {
     display: 'none',
   },
@@ -125,6 +122,14 @@ const Home = (props) => {
                     disableTypography
                     primary={`Next Irrigation: ${nextCycleTime || 'Not set'}`}
                   />
+                </ListItem>
+                <Divider className="divider" />
+                <ListItem className={classes.listItem} button>
+                  <ListItemText disableTypography primary="test" />
+                </ListItem>
+                <Divider className="divider" />
+                <ListItem className={classes.listItem} button>
+                  <ListItemText disableTypography primary="test" />
                 </ListItem>
               </List>
             </div>

@@ -3,7 +3,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable no-unused-vars */
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
@@ -13,7 +12,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-// import { Timer, Today, Home as HomeIcon } from '@material-ui/icons';
 import axios from 'axios';
 
 import { UserContext } from '../providers/UserProvider';
@@ -91,10 +89,8 @@ export default function FullWidthTabs(props) {
         const { data } = response;
         if (data) {
           setStatus('ON');
-          // setIsBreathing(true);
         } else {
           setStatus('OFF');
-          // setIsBreathing(false);
         }
       })
       .catch((error) => {

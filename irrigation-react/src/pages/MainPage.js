@@ -9,8 +9,6 @@ import axios from 'axios';
 import { Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FullWidthTabs from '../components/TabFrame';
-// import Popup from '../model/Popup';
-// import { auth, firestore } from '../utils/Firebase';
 import { auth } from '../utils/Firebase';
 import { UserContext } from '../providers/UserProvider';
 import { ReactComponent as BalloonSVG } from '../images/hot-air-balloon.svg';

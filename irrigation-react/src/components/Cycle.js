@@ -6,6 +6,7 @@ import {
   KeyboardTimePicker,
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
+import ScheduleIcon from '@material-ui/icons/Schedule';
 import MomentUtils from '@date-io/moment';
 import moment from 'moment';
 
@@ -36,6 +37,7 @@ const Cycle = (props) => {
             ampm={false}
             value={moment(startTime || '00:00:00', 'HH:mm') || ''}
             invalidDateMessage
+            keyboardIcon={<ScheduleIcon />}
             onChange={(time) => {
               updateRound(
                 `round${cycleNumber}`,
@@ -51,6 +53,7 @@ const Cycle = (props) => {
             ampm={false}
             value={moment(endTime || '00:00:00', 'HH:mm') || ''}
             invalidDateMessage
+            keyboardIcon={<ScheduleIcon />}
             onChange={(time) => {
               updateRound(
                 `round${cycleNumber}`,
