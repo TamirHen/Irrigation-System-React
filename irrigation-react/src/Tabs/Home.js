@@ -10,6 +10,8 @@ import Divider from '@material-ui/core/Divider';
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import { ReactComponent as SproutTree } from '../images/sprout-tree.svg';
+import { ReactComponent as WateringCan } from '../images/watering-can.svg';
 
 import { UserContext } from '../providers/UserProvider';
 
@@ -133,7 +135,13 @@ const Home = (props) => {
                 </ListItem>
               </List>
             </div>
-            <div className="right-side">test</div>
+            <div className="right-side">
+              <WateringCan />
+              <SproutTree
+                className="sprout-tree-svg"
+                style={{ height: '60px' }}
+              />
+            </div>
           </div>
         </div>
       </div>
