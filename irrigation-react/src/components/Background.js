@@ -3,7 +3,6 @@ import { ReactComponent as SunSVG } from '../images/sun.svg';
 import { ReactComponent as CloudSVG } from '../images/cloud.svg';
 
 // import Birds from '../model/Birds';
-
 import './Background.css';
 
 function Background() {
