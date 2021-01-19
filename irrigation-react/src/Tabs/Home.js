@@ -1,17 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import RefreshIcon from '@material-ui/icons/Refresh';
-import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
+import TextField from '@material-ui/core/TextField';
+import IconButton from '@material-ui/core/IconButton';
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { ReactComponent as SproutTree } from '../images/sprout-tree.svg';
 import { ReactComponent as WateringCan } from '../images/watering-can.svg';
+import { ReactComponent as Settings } from '../images/settings.svg';
 
 import { UserContext } from '../providers/UserProvider';
 
@@ -59,6 +61,8 @@ const Home = (props) => {
     turnOffWatering,
     nextCycleTime,
   } = props;
+
+  const [displaySettings, setDisplaySetting] = useState(false);
 
   const getHelloMessage = () => {
     const today = new Date();
@@ -125,18 +129,64 @@ const Home = (props) => {
                     primary={`Next Irrigation: ${nextCycleTime || 'Not set'}`}
                   />
                 </ListItem>
-                <Divider className="divider" />
-                <ListItem className={classes.listItem} button>
-                  <ListItemText disableTypography primary="test" />
-                </ListItem>
-                <Divider className="divider" />
-                <ListItem className={classes.listItem} button>
-                  <ListItemText disableTypography primary="test" />
-                </ListItem>
               </List>
+
+              <ListItem
+                className={`${classes.listItem} before-slide ${
+                  displaySettings && 'slide'
+                }`}
+              >
+                <div className="settings-body">
+                  <List>
+                    <TextField
+                      label="First Name"
+                      fullWidth
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      defaultValue={user.firstName}
+                      style={{
+                        marginBottom: '10px',
+                      }}
+                    />
+                    <TextField
+                      label="Last Name"
+                      fullWidth
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      defaultValue={user.lastName}
+                      style={{ marginBottom: '10px' }}
+                    />
+                    <TextField
+                      label="URL Code"
+                      fullWidth
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      defaultValue={user.urlCode}
+                    />
+                  </List>
+                </div>
+              </ListItem>
+              <IconButton
+                className="settings-button"
+                size="small"
+                onClick={() => setDisplaySetting(!displaySettings)}
+              >
+                <Settings
+                  className={`settings-svg ${displaySettings && 'roll'}`}
+                  style={{
+                    height: '35px',
+                  }}
+                />
+              </IconButton>
             </div>
             <div className="right-side">
-              <WateringCan />
+              <WateringCan
+                className="watering-can-svg"
+                style={{ height: '150px' }}
+              />
               <SproutTree
                 className="sprout-tree-svg"
                 style={{ height: '60px' }}
