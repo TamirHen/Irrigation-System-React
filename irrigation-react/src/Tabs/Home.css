@@ -134,3 +134,12 @@
   z-index: 1;
   padding: 6px !important;
 }
+
+.save-error-message {
+  position: absolute;
+  top: -2px;
+  right: 38px;
+  z-index: 1;
+  color: red;
+  font-size: 12px;
+}

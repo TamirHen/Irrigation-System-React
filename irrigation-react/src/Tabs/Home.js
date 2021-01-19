@@ -15,7 +15,7 @@ import clsx from 'clsx';
 import { ReactComponent as SproutTree } from '../images/sprout-tree.svg';
 import { ReactComponent as WateringCan } from '../images/watering-can.svg';
 import { ReactComponent as Settings } from '../images/settings.svg';
-
+import { updateUserDocument } from '../utils/Firebase';
 import { UserContext } from '../providers/UserProvider';
 
 import './Home.css';
@@ -63,6 +63,11 @@ const Home = (props) => {
     nextCycleTime,
   } = props;
 
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
+  const [urlCode, setUrlCode] = useState(user.urlCode);
+  const [saveLoader, setSaveLoader] = useState(false);
+  const [saveError, setSaveError] = useState(false);
   const [displaySettings, setDisplaySetting] = useState(false);
 
   const getHelloMessage = () => {
@@ -141,17 +146,43 @@ const Home = (props) => {
                   displaySettings && 'slide'
                 }`}
               >
-                <div className="settings-body" title="Save">
+                <form
+                  className="settings-body"
+                  onSubmit={async (event) => {
+                    event.preventDefault();
+                    setSaveLoader(true);
+                    const result = await updateUserDocument(user, {
+                      firstName,
+                      lastName,
+                      urlCode,
+                    });
+                    if (result === 'error') setSaveError(true);
+                    else setSaveError(false);
+                    setSaveLoader(false);
+                  }}
+                >
                   <List>
-                    <IconButton className="submit-settings" size="small">
-                      <SaveIcon
-                        style={{
-                          height: '25px',
-                          width: '25px',
-                          color: 'rgb(191 191 191 / 91%)',
-                        }}
-                      />
+                    <IconButton
+                      className="submit-settings"
+                      size="small"
+                      title="Save"
+                      type="submit"
+                    >
+                      {saveLoader ? (
+                        <CircularProgress size={25} />
+                      ) : (
+                        <SaveIcon
+                          style={{
+                            height: '25px',
+                            width: '25px',
+                            color: 'rgb(191 191 191 / 91%)',
+                          }}
+                        />
+                      )}
                     </IconButton>
+                    <p className="save-error-message">
+                      {saveError && 'Error!'}
+                    </p>
                     <TextField
                       id="setting-field"
                       label="First Name"
@@ -159,10 +190,11 @@ const Home = (props) => {
                       InputLabelProps={{
                         shrink: true,
                       }}
-                      defaultValue={user.firstName}
+                      defaultValue={firstName}
                       style={{
                         marginBottom: '10px',
                       }}
+                      onChange={(e) => setFirstName(e.target.value)}
                     />
                     <TextField
                       id="setting-field"
@@ -171,8 +203,9 @@ const Home = (props) => {
                       InputLabelProps={{
                         shrink: true,
                       }}
-                      defaultValue={user.lastName}
+                      defaultValue={lastName}
                       style={{ marginBottom: '10px' }}
+                      onChange={(e) => setLastName(e.target.value)}
                     />
                     <TextField
                       id="setting-field"
@@ -181,10 +214,11 @@ const Home = (props) => {
                       InputLabelProps={{
                         shrink: true,
                       }}
-                      defaultValue={user.urlCode}
+                      defaultValue={urlCode}
+                      onChange={(e) => setUrlCode(e.target.value)}
                     />
                   </List>
-                </div>
+                </form>
               </ListItem>
               <IconButton
                 className="settings-button"
@@ -195,7 +229,7 @@ const Home = (props) => {
                   title="Settings"
                   className={`settings-svg ${displaySettings && 'roll'}`}
                   style={{
-                    height: '35px',
+                    height: '30px',
                   }}
                 />
               </IconButton>

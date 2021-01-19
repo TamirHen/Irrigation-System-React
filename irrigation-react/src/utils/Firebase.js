@@ -58,3 +58,27 @@ const getUserDocument = async (email) => {
   }
   return 'Could not find document.';
 };
+
+export const updateUserDocument = async (user, data) => {
+  if (!user) return 'error';
+  const { email } = user;
+  const userRef = firestore.collection('users').doc(email);
+  const userDoc = await userRef.get();
+  if (!userDoc.exists) return 'error';
+
+  if (data?.urlCode.slice(-1) === '/') {
+    data.urlCode = data.urlCode.slice(0, -1);
+  }
+  try {
+    await userRef.set(
+      {
+        ...data,
+      },
+      { merge: true },
+    );
+  } catch (error) {
+    console.error("Error: can't update document: ", error);
+    return 'error';
+  }
+  return 'updated';
+};
