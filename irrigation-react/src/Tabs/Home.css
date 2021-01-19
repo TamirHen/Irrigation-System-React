@@ -1,6 +1,12 @@
 .MuiBox-root-20 {
   overflow: hidden !important;
 }
+
+.MuiInputBase-input#setting-field {
+  color: #659adc !important;
+  font-size: 15px !important;
+}
+
 .container-header {
   font-weight: bold;
   text-align: left;
@@ -34,7 +40,6 @@
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  padding-bottom: 50px;
 }
 
 .status-list-wrapper {
@@ -82,6 +87,7 @@
 .sprout-tree-svg {
   position: absolute;
   right: 50px;
+  bottom: 60px;
 }
 
 .settings-button {
@@ -114,8 +120,17 @@
 .before-slide {
   top: 235px;
   transition: all 1s !important;
+  border: 1px dashed #659adc;
 }
 
 .slide {
   transform: translateY(-235px);
+}
+
+.submit-settings {
+  position: absolute !important;
+  top: 0px;
+  right: -2px;
+  z-index: 1;
+  padding: 6px !important;
 }

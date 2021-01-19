@@ -8,6 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
+import SaveIcon from '@material-ui/icons/Save';
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -96,7 +97,11 @@ const Home = (props) => {
                       primary={`Status: ${status}`}
                     />
                     <p className="status-error-message">{errorMessage}</p>
-                    <IconButton size="small" onClick={getStatus}>
+                    <IconButton
+                      size="small"
+                      onClick={getStatus}
+                      title="Refresh"
+                    >
                       {loader ? (
                         <CircularProgress size={25} />
                       ) : (
@@ -136,9 +141,19 @@ const Home = (props) => {
                   displaySettings && 'slide'
                 }`}
               >
-                <div className="settings-body">
+                <div className="settings-body" title="Save">
                   <List>
+                    <IconButton className="submit-settings" size="small">
+                      <SaveIcon
+                        style={{
+                          height: '25px',
+                          width: '25px',
+                          color: 'rgb(191 191 191 / 91%)',
+                        }}
+                      />
+                    </IconButton>
                     <TextField
+                      id="setting-field"
                       label="First Name"
                       fullWidth
                       InputLabelProps={{
@@ -150,6 +165,7 @@ const Home = (props) => {
                       }}
                     />
                     <TextField
+                      id="setting-field"
                       label="Last Name"
                       fullWidth
                       InputLabelProps={{
@@ -159,6 +175,7 @@ const Home = (props) => {
                       style={{ marginBottom: '10px' }}
                     />
                     <TextField
+                      id="setting-field"
                       label="URL Code"
                       fullWidth
                       InputLabelProps={{
@@ -175,6 +192,7 @@ const Home = (props) => {
                 onClick={() => setDisplaySetting(!displaySettings)}
               >
                 <Settings
+                  title="Settings"
                   className={`settings-svg ${displaySettings && 'roll'}`}
                   style={{
                     height: '35px',

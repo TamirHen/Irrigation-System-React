@@ -24,7 +24,6 @@ export const persistence = firebase.auth.Auth.Persistence;
 export const firestore = firebase.firestore();
 
 export const generateUserDocument = async (user, additionalData) => {
-  // const firestore = firebase.firestore();
   if (!user) return;
   const { email } = user;
   const userRef = firestore.collection('users').doc(email);
