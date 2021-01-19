@@ -1,3 +1,4 @@
+/* eslint consistent-return: off */
 import React, { useContext } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
@@ -10,27 +11,35 @@ import ForgotPassword from './pages/ForgotPassword';
 
 function Application() {
   const user = useContext(UserContext);
-  console.log(user);
 
-  return user ? (
-    <MainPage key="main-page" />
-  ) : (
-    <>
-      <Router>
-        <Switch>
-          <Route path="/signup">
-            <SignUp />
-          </Route>
-          <Route path="/reset-password">
-            <ForgotPassword />
-          </Route>
-          <Route path="/">
-            <SignIn />
-          </Route>
-        </Switch>
-      </Router>
-    </>
-  );
+  function renderSwitch() {
+    switch (user) {
+      case 'initial':
+        break;
+      case undefined:
+        return (
+          <>
+            <Router>
+              <Switch>
+                <Route path="/signup">
+                  <SignUp />
+                </Route>
+                <Route path="/reset-password">
+                  <ForgotPassword />
+                </Route>
+                <Route path="/">
+                  <SignIn />
+                </Route>
+              </Switch>
+            </Router>
+          </>
+        );
+      default:
+        return <MainPage key="main-page" />;
+    }
+  }
+
+  return <div>{renderSwitch()}</div>;
 }
 
 export default Application;

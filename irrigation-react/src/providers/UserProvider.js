@@ -3,10 +3,10 @@
 import React, { Component, createContext } from 'react';
 import { auth, generateUserDocument } from '../utils/Firebase';
 
-export const UserContext = createContext({ user: null });
+export const UserContext = createContext({ user: 'null' });
 class UserProvider extends Component {
   state = {
-    user: null,
+    user: 'initial',
   };
 
   componentDidMount = async () => {
