@@ -12,11 +12,11 @@ import SaveIcon from '@material-ui/icons/Save';
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import { ReactComponent as SproutTree } from '../images/sprout-tree.svg';
-import { ReactComponent as WateringCan } from '../images/watering-can.svg';
-import { ReactComponent as Settings } from '../images/settings.svg';
-import { updateUserDocument } from '../utils/Firebase';
-import { UserContext } from '../providers/UserProvider';
+import { ReactComponent as SproutTree } from '../../assets/sprout-tree.svg';
+import { ReactComponent as WateringCan } from '../../assets/watering-can.svg';
+import { ReactComponent as Settings } from '../../assets/settings.svg';
+import { updateUserDocument } from '../../utils/Firebase';
+import { UserContext } from '../../providers/UserProvider';
 
 import './Home.css';
 

@@ -16,12 +16,12 @@ import axios from 'axios';
 
 import { UserContext } from '../providers/UserProvider';
 
-import Auto from '../Tabs/Auto';
-import Manual from '../Tabs/Manual';
-import Home from '../Tabs/Home';
+import Auto from './tabs/Auto';
+import Manual from './tabs/Manual';
+import Home from './tabs/Home';
 
 import './TabFrame.css';
-import '../Tabs/Home.css';
+import './tabs/Home.css';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -144,14 +144,9 @@ export default function FullWidthTabs(props) {
           aria-label="tabs"
           centered
         >
-          <Tab
-            label="Home"
-            onClick={getStatus}
-            /* icon={<HomeIcon />} */
-            {...a11yProps(0)}
-          />
-          <Tab label="Manual" /* icon={<Timer />} */ {...a11yProps(1)} />
-          <Tab label="Auto" /* icon={<Today />} */ {...a11yProps(2)} />
+          <Tab label="Home" onClick={getStatus} {...a11yProps(0)} />
+          <Tab label="Manual" {...a11yProps(1)} />
+          <Tab label="Auto" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <SwipeableViews

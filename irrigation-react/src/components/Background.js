@@ -1,14 +1,12 @@
 import React from 'react';
-import { ReactComponent as SunSVG } from '../images/sun.svg';
-import { ReactComponent as CloudSVG } from '../images/cloud.svg';
+import { ReactComponent as SunSVG } from '../assets/sun.svg';
+import { ReactComponent as CloudSVG } from '../assets/cloud.svg';
 
-// import Birds from '../model/Birds';
 import './Background.css';
 
 function Background() {
   return (
     <>
-      {/* <Birds /> */}
       <SunSVG
         className="sun-svg"
         style={{ top: '40px', right: '8%', height: '100px' }}

@@ -1,17 +1,14 @@
-/* eslint-disable import/no-named-as-default */
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
-/* eslint-disable no-unused-expressions */
 import React, { useContext, useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useTimer } from 'react-compound-timer';
-import formatTimeUnit from '../utils/FormatTimeUnit';
+import formatTimeUnit from '../../utils/FormatTimeUnit';
 
-import { UserContext } from '../providers/UserProvider';
-import WatermingButton from '../components/WateringButton';
-import { validateMintues } from '../utils/Validate';
+import { UserContext } from '../../providers/UserProvider';
+import WatermingButton from '../WateringButton';
+import { validateMintues } from '../../utils/Validate';
 
 import './Manual.css';
 
@@ -163,18 +160,6 @@ const Manual = (props) => {
         height="200px"
         width="200px"
       />
-      {/* <div className="breathing-button-wrapper">
-        <Button
-          id="breathing-button"
-          className={`manual-button ${isBreathing ? 'breathing' : ''}`}
-          variant="contained"
-          color={textButton === 'START' ? 'primary' : 'secondary'}
-          type="submit"
-          disabled={isSubmitDisabled}
-        >
-          {textButton}
-        </Button>
-      </div> */}
       <div className="timer-wrapper" hidden={textButton === 'START'}>
         {formatTimeUnit(value.h)}:{formatTimeUnit(value.m)}:
         {formatTimeUnit(value.s)}

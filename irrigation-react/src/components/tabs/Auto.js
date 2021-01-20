@@ -1,17 +1,13 @@
 /* eslint-disable no-console */
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable react/require-default-props */
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable no-unused-vars */
 import React, { useContext, useState } from 'react';
 import { Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
-import { validateWeek } from '../utils/Validate';
-import { UserContext } from '../providers/UserProvider';
+import { validateWeek } from '../../utils/Validate';
+import { UserContext } from '../../providers/UserProvider';
 
-import Day from '../components/Day';
-import Cycle from '../components/Cycle';
+import Day from '../Day';
+import Cycle from '../Cycle';
 
 import './Auto.css';
 
@@ -159,7 +155,7 @@ function Auto(props) {
         </div>
         <div className="tab-object-wrapper">
           <ul className="week-list">
-            {Object.keys(week).map((keyName, keyIndex) => (
+            {Object.keys(week).map((keyName) => (
               <Day
                 key={keyName + week[keyName]}
                 day={keyName}
@@ -180,7 +176,6 @@ function Auto(props) {
         >
           Submit
         </Button>
-        {/* <label className="mock-label"></label> */}
       </div>
       <div className="submit-message-wrapper">
         <p className="submit-message" style={{ color: textColor }}>

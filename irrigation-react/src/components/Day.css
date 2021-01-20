@@ -14,9 +14,7 @@
 }
 
 .li-day:hover {
-  /* border-bottom: 1px dashed; */
   border-radius: 20px;
-  /* padding: 2px 0px; */
   box-shadow: 1px 1px 2px 0px #6b79c7;
   cursor: pointer;
 }

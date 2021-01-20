@@ -1,7 +1,4 @@
 /* eslint-disable no-console */
-/* eslint-disable no-restricted-globals */
-/* eslint-disable no-unused-vars */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';

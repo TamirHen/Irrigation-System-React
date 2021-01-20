@@ -1,7 +1,5 @@
 /* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -56,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn(props) {
+export default function SignIn() {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -73,7 +71,7 @@ export default function SignIn(props) {
     auth
       .setPersistence(rememberMe ? persistence.LOCAL : persistence.SESSION)
       .then(() =>
-        auth.signInWithEmailAndPassword(email, password).catch((err) => {
+        auth.signInWithEmailAndPassword(email, password).catch(() => {
           errorHandler('Incorrect email or password');
         }),
       )

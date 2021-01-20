@@ -25,15 +25,11 @@
   position: absolute;
   bottom: 55px;
   left: 7%;
-  /* height: 175px; */
   width: 90px;
   cursor: pointer;
-  /* transition: transform 1s; */
 }
 
 .balloon-animation {
-  /* transform: translateY(-10px); */
-  /* transform: skewX(0deg); */
   animation: float 2.5s ease-in-out;
 }
 
@@ -43,7 +39,6 @@
   }
   50% {
     transform: translateY(-20px);
-    /* scale: (1.2%); */
   }
   100% {
     transform: translateY(0px);

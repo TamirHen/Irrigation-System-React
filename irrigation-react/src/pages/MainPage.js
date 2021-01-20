@@ -1,7 +1,3 @@
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-plusplus */
-/* eslint-disable no-unused-vars */
-/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable no-console */
 import React, { useContext, useEffect, useState } from 'react';
 
@@ -11,12 +7,12 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import FullWidthTabs from '../components/TabFrame';
 import { auth } from '../utils/Firebase';
 import { UserContext } from '../providers/UserProvider';
-import { ReactComponent as BalloonSVG } from '../images/hot-air-balloon.svg';
+import { ReactComponent as BalloonSVG } from '../assets/hot-air-balloon.svg';
 
 import nextIrrigation from '../utils/NextIrrigation';
 import './MainPage.css';
 
-const MainPage = (props) => {
+const MainPage = () => {
   const user = useContext(UserContext);
 
   const [week, setWeek] = useState({
