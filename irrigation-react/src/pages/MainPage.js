@@ -70,14 +70,9 @@ const MainPage = () => {
   };
 
   const logout = () => {
-    auth
-      .signOut()
-      .then(() => {
-        console.log('Sign-out successfully');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    auth.signOut().catch((error) => {
+      console.log(error);
+    });
   };
 
   const fetchDataFromPi = () => {
@@ -89,7 +84,6 @@ const MainPage = () => {
         timeout: 10 * 1000,
       })
       .then((response) => {
-        console.log('login successfully');
         const { data } = response;
         const weekData = {
           sunday: data.sunday,
@@ -140,7 +134,7 @@ const MainPage = () => {
     <>
       <div className="main-container">
         <div className="title-wrapper">
-          <h1>Home Irrigation System</h1>
+          <h1>Smart Irrigation System</h1>
         </div>
         <FullWidthTabs
           rounds={rounds}
