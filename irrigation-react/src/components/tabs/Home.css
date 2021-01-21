@@ -152,3 +152,12 @@
     width: 100%;
   }
 }
+
+@media (max-width: 410px) {
+  .container-header {
+    padding-left: 0px;
+  }
+  .container-body {
+    width: 95%;
+  }
+}

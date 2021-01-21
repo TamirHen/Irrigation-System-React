@@ -22,37 +22,6 @@ import { UserContext } from '../../providers/UserProvider';
 
 import './Home.css';
 
-const useStyles = makeStyles(() => ({
-  hidden: {
-    display: 'none',
-  },
-  listItem: {
-    backgroundColor: 'rgba(232, 241, 247, 0.795)',
-    cursor: 'unset',
-    borderRadius: '4px',
-    color: '#659adc',
-    fontWeight: 'bold',
-  },
-  stopButton: {
-    backgroundColor: 'rgba(255, 172, 151, 0.795)',
-    padding: '0px',
-    textAlign: 'center',
-    width: '0px',
-    visibility: 'hidden',
-    transition: `all 1s`,
-  },
-  stopButtonAppear: {
-    width: '64px',
-    visibility: 'visible',
-    marginLeft: '8px',
-  },
-  listItemStop: {
-    width: '30%',
-    color: '#cf5858',
-    fontWeight: 'bold',
-  },
-}));
-
 const Home = (props) => {
   const isMobileBig = useMediaQuery({
     query: '(max-width: 720px)',
@@ -60,6 +29,38 @@ const Home = (props) => {
   const isMobileSmall = useMediaQuery({
     query: '(max-width: 530px)',
   });
+
+  const useStyles = makeStyles(() => ({
+    hidden: {
+      display: 'none',
+    },
+    listItem: {
+      backgroundColor: 'rgba(232, 241, 247, 0.795)',
+      cursor: 'unset',
+      borderRadius: '4px',
+      color: '#659adc',
+      fontWeight: 'bold',
+      fontSize: isMobileSmall ? '15px' : '16px',
+    },
+    stopButton: {
+      backgroundColor: 'rgba(255, 172, 151, 0.795)',
+      padding: '0px',
+      textAlign: 'center',
+      width: '0px',
+      visibility: 'hidden',
+      transition: `all 1s`,
+    },
+    stopButtonAppear: {
+      width: '64px',
+      visibility: 'visible',
+      marginLeft: '8px',
+    },
+    listItemStop: {
+      width: '30%',
+      color: '#cf5858',
+      fontWeight: 'bold',
+    },
+  }));
 
   const user = useContext(UserContext);
   const classes = useStyles();

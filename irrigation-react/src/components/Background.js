@@ -43,8 +43,8 @@ function Background() {
       <CloudSVG
         className="cloud-svg mirror"
         style={{
-          top: '30px',
-          left: isMobile ? '20%' : '28%',
+          top: isMobile ? '55px' : '30px',
+          left: isMobile ? '10%' : '28%',
           height: '70px',
           zIndex: -3,
         }}
