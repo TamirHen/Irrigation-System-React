@@ -77,15 +77,11 @@
 
 .watering-can-svg {
   position: absolute;
-  bottom: 80px;
-  right: 70px;
   transform: scale(-1, 1);
 }
 
 .sprout-tree-svg {
   position: absolute;
-  right: 50px;
-  bottom: 60px;
 }
 
 .settings-button {
@@ -140,4 +136,19 @@
   z-index: 1;
   color: red;
   font-size: 12px;
+}
+
+@media (max-width: 720px) {
+  .left-side {
+    width: 75%;
+  }
+  .right-side {
+    width: 25%;
+  }
+}
+
+@media (max-width: 530px) {
+  .left-side {
+    width: 100%;
+  }
 }

@@ -1,4 +1,6 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState, useContext } from 'react';
+import { useMediaQuery } from 'react-responsive';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import RefreshIcon from '@material-ui/icons/Refresh';
@@ -52,6 +54,13 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Home = (props) => {
+  const isMobileBig = useMediaQuery({
+    query: '(max-width: 720px)',
+  });
+  const isMobileSmall = useMediaQuery({
+    query: '(max-width: 530px)',
+  });
+
   const user = useContext(UserContext);
   const classes = useStyles();
   const {
@@ -234,16 +243,26 @@ const Home = (props) => {
                 />
               </IconButton>
             </div>
-            <div className="right-side">
-              <WateringCan
-                className="watering-can-svg"
-                style={{ height: '150px' }}
-              />
-              <SproutTree
-                className="sprout-tree-svg"
-                style={{ height: '60px' }}
-              />
-            </div>
+            {!isMobileSmall && (
+              <div className="right-side">
+                <WateringCan
+                  className="watering-can-svg"
+                  style={{
+                    height: isMobileBig ? '130px' : '150px',
+                    bottom: '80px',
+                    right: isMobileBig ? '50px' : '70px',
+                  }}
+                />
+                <SproutTree
+                  className="sprout-tree-svg"
+                  style={{
+                    height: isMobileBig ? '45px' : '60px',
+                    right: isMobileBig ? '40px' : '50px',
+                    bottom: '60px',
+                  }}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

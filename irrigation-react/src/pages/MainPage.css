@@ -1,5 +1,7 @@
 .main-container {
   text-align: center;
+  margin-right: 15px;
+  margin-left: 15px;
 }
 
 .error-wrapper {
@@ -21,7 +23,6 @@
 }
 
 .signout {
-  position: absolute;
   position: absolute;
   bottom: 55px;
   left: 7%;
@@ -47,4 +48,20 @@
 
 .st5 {
   fill: #b3b5b8 !important;
+}
+
+@media (max-width: 720px) {
+  .signout {
+    position: relative;
+    bottom: unset;
+    margin-top: 40px;
+    width: 70px;
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 500px) {
+  h1 {
+    font-size: 30px;
+  }
 }
