@@ -233,6 +233,10 @@ const Home = (props) => {
               <IconButton
                 className="settings-button"
                 size="small"
+                style={{
+                  bottom: isMobileSmall ? '10px' : '17px',
+                  left: isMobileSmall ? '10px' : '17px',
+                }}
                 onClick={() => setDisplaySetting(!displaySettings)}
               >
                 <Settings
