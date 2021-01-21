@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/static/css/main.031afc74.chunk.css",
+    "main.js": "/static/js/main.e95c5dde.chunk.js",
+    "main.js.map": "/static/js/main.e95c5dde.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.446e37fe.js",
+    "runtime-main.js.map": "/static/js/runtime-main.446e37fe.js.map",
+    "static/js/2.aa29995c.chunk.js": "/static/js/2.aa29995c.chunk.js",
+    "static/js/2.aa29995c.chunk.js.map": "/static/js/2.aa29995c.chunk.js.map",
+    "static/js/3.b2ddcfb2.chunk.js": "/static/js/3.b2ddcfb2.chunk.js",
+    "static/js/3.b2ddcfb2.chunk.js.map": "/static/js/3.b2ddcfb2.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.031afc74.chunk.css.map": "/static/css/main.031afc74.chunk.css.map",
+    "static/js/2.aa29995c.chunk.js.LICENSE.txt": "/static/js/2.aa29995c.chunk.js.LICENSE.txt",
+    "static/media/cloud.1a01f177.svg": "/static/media/cloud.1a01f177.svg",
+    "static/media/hot-air-balloon.b4dddae0.svg": "/static/media/hot-air-balloon.b4dddae0.svg",
+    "static/media/settings.0b6c9b5c.svg": "/static/media/settings.0b6c9b5c.svg",
+    "static/media/sprout-tree.173ee0a7.svg": "/static/media/sprout-tree.173ee0a7.svg",
+    "static/media/sun.0a8d8d30.svg": "/static/media/sun.0a8d8d30.svg",
+    "static/media/watering-can.cc9171c2.svg": "/static/media/watering-can.cc9171c2.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.446e37fe.js",
+    "static/js/2.aa29995c.chunk.js",
+    "static/css/main.031afc74.chunk.css",
+    "static/js/main.e95c5dde.chunk.js"
+  ]
+}
