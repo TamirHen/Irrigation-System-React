@@ -28,6 +28,7 @@ body {
     #f2fafd,
     #f5fcff
   );
+  min-height: 800px;
 }
 
 code {

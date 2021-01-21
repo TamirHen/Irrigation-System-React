@@ -1,8 +1,11 @@
 /* eslint-disable no-console */
 import React, { useContext, useState } from 'react';
+import { useMediaQuery } from 'react-responsive';
+
 import { Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
+import Divider from '@material-ui/core/Divider';
 import { validateWeek } from '../../utils/Validate';
 import { UserContext } from '../../providers/UserProvider';
 
@@ -12,6 +15,10 @@ import Cycle from '../Cycle';
 import './Auto.css';
 
 function Auto(props) {
+  const isMobile = useMediaQuery({
+    query: '(max-width: 720px)',
+  });
+
   const user = useContext(UserContext);
   const [loading, setLoading] = useState('determinate');
   const [submitMessage, setSubmitMessage] = useState('');
@@ -153,6 +160,7 @@ function Auto(props) {
             />
           ))}
         </div>
+        {isMobile && <Divider variant="middle" className="divider-auto" />}
         <div className="tab-object-wrapper">
           <ul className="week-list">
             {Object.keys(week).map((keyName) => (
