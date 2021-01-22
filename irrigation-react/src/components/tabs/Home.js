@@ -27,7 +27,7 @@ const Home = (props) => {
     query: '(max-width: 720px)',
   });
   const isMobileSmall = useMediaQuery({
-    query: '(max-width: 530px)',
+    query: '(max-width: 600px)',
   });
 
   const useStyles = makeStyles(() => ({

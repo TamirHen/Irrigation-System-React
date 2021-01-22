@@ -145,17 +145,32 @@
   }
 }
 
-@media (max-width: 530px) {
+@media (max-width: 600px) {
   .left-side {
     width: 100%;
   }
 }
 
-@media (max-width: 410px) {
+@media (max-width: 450px) {
   .container-header {
     padding-left: 0px;
   }
+
   .container-body {
     width: 95%;
+  }
+}
+
+@media (max-width: 390px) {
+  .container {
+    height: 350px;
+  }
+
+  .before-slide {
+    top: 255px;
+  }
+
+  .slide {
+    transform: translateY(-255px);
   }
 }

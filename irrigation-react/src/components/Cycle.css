@@ -32,3 +32,10 @@
     margin-right: 3px !important;
   }
 }
+
+@media (max-width: 720px) {
+  .cycle-container {
+    margin-left: 5px;
+    padding-left: 5px;
+  }
+}
