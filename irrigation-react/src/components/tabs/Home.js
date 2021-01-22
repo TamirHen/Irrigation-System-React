@@ -58,7 +58,12 @@ const Home = (props) => {
     listItemStop: {
       width: '30%',
       color: '#cf5858',
+      fontSize: isMobileSmall ? '0px' : '16px',
       fontWeight: 'bold',
+      transition: `all 400ms`,
+    },
+    listItemStopAppear: {
+      fontSize: '16px',
     },
   }));
 
@@ -136,7 +141,11 @@ const Home = (props) => {
                     <Button onClick={turnOffWatering}>
                       <ListItemText
                         disableTypography
-                        className={classes.listItemStop}
+                        className={`${classes.listItemStop} ${
+                          isMobileSmall &&
+                          status === 'ON' &&
+                          classes.listItemStopAppear
+                        }`}
                         primary="STOP"
                       />
                     </Button>
