@@ -1,6 +1,6 @@
 import React from 'react';
 
-import UserProvider from './providers/UserProvider';
+import UserProvider from '../providers/UserProvider';
 import Application from './Application';
 
 function App() {
